@@ -1,0 +1,13 @@
+\section{Open problems}\label{sec:open}
+
+\begin{enumerate}
+\item \textbf{Signed decomposable circuits.} Is there a polynomial-size (or $2^{o(L)}$-size) syntactically decomposable circuit with real weights whose function is $U_L$, exactly or within constant TV? Proposition~\ref{prop:structured-signed} rules this out for structured circuits and exact representation. A positive answer for the network polynomial would follow from a small decomposable circuit for the Kasteleyn determinant (Section~\ref{sec:signed}), which relates the question to set-multilinear lower bounds for the determinant.
+
+\item \textbf{Rectangles and the torus.} Our selection lemmas use the square shape: a clean row and a clean column must meet, and balance forces $\Omega(L)$ mixed lines. For an $L_1\times L_2$ rectangle with $L_1\ll L_2$, the column-transfer circuit has size $2^{O(L_1)}$, so the right exponent is in the short side, and fixed-width strips have small circuits. Is the answer $\exp(\Theta(\min(L_1,L_2)))$ for every aspect ratio? Answering this means redoing the kernel bound and the selection lemma. On the torus, a Kasteleyn matrix gives the partition function only as a signed combination of four determinants, so Lemma~\ref{lem:tilted} needs to be replaced.
+
+\item \textbf{Sharper constants.} The certified rate $c(1000)\ge1/1129$ is about $100$ times smaller than the decay observed along the same forbidden sets, and about $10^3$ times smaller than the upper-bound exponent $\ln(1+\sqrt2)$. Most of the loss is in the row-sum bound $R(L)$. What is the true exponent $\lim_{L\to\infty}-\frac1L\ln\alpha_L$, and is it attained by straight cuts?
+
+\item \textbf{Other encodings.} We use edge-indicator variables. With vertex-partner variables, each vertex records the direction of its partner, and each matching edge is seen twice. Theorem~B does not apply as stated.
+
+\item \textbf{Robust $2^{\Omega(n)}$ for spanning trees on expanders.} Chattopadhyay, Datta, Ghosal and Mukhopadhyay~\cite{CDGM22} prove $2^{\Omega(n)}$ exact monotone lower bounds for directed spanning-tree polynomials (separate variables for opposite arcs) of constant-degree expanders. A constant-TV version for nonnegative decomposable PCs would need an all-cut bound on the probability of each compatible pair of partial forests, or a bound on the full square-root matrix. Compatibility of forests is not determined by covered vertex sets, so the dimer argument does not transfer. Such a result would give a natural distribution with tractable inference, by the matrix-tree theorem, and a $2^{\Omega(n)}$ robust lower bound.
+\end{enumerate}

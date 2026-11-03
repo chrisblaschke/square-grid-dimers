@@ -1,0 +1,27 @@
+\section{Numerical checks}\label{app:checks}
+
+None of the proofs depends on these computations. They check identities and constants, and they show how loose the bounds are. All six scripts are in the \texttt{verify/} folder of \url{https://github.com/chrisb4096-alt/square-grid-dimers}, with the JSON output of each. The first five run with \texttt{uv run} (NumPy and SciPy for two of them) and print JSON to standard output. The last needs only the Python standard library.
+
+\begin{description}
+\item[\texttt{kasteleyn\_pgc\_checks.py}] Lemmas~\ref{lem:faces}, \ref{lem:common-phase} and~\ref{lem:tilted} in exact arithmetic for $L\in\{2,4,6\}$. It enumerates all $2$, $36$ and $6728$ perfect matchings and checks that all $1$, $9$ and $25$ unit squares have sign product $-1$. It also checks that every matching has the same sign in $\det K'$ ($+1$ in the script's orderings) and the same phase in $\det K$ ($+1$). The polynomial identity~\eqref{eq:kasteleyn} is checked at $6$ random integer points per $L$, half of them with negative entries. The tilted identity is checked for $25$ random sets $F$ with $\abs F\le8$ per $L$, at $\eta=2/5$, using rational arithmetic.
+
+\item[\texttt{kernel\_bounds.py}] Section~\ref{sec:kernel}.
+\begin{itemize}
+\item The closed form of Lemma~\ref{lem:resolvent} agrees with dense inverses to $1.72\cdot10^{-15}$, and the largest ratio to the bound is $0.99875$.
+\item The lower bounds on the $s_j$ in Lemma~\ref{lem:torus}(c) hold for all odd $N\le201$ and $N\in\{301,513,1001\}$. The intermediate sum gives $\max_d d\,M^{-1}\sum_j\tau(s_j)=0.498$, against $A_\star=1.3696$.
+\item The FFT torus kernels for $L$ from $8$ to $512$ have residual $\norm{T_Mg-\delta_0}_\infty\le2.3\cdot10^{-16}$, with $g(e_1)=1/4$ and $g(e_2)=-i/4$ to within $10^{-16}$. The observed $\sup_z\norm z_T\abs{g(z)}$ is $0.4257$ at $L=8$ and $0.4173$ at $L=512$.
+\item The image formula of Lemma~\ref{lem:images} agrees with sparse LU solves to within $5.1\cdot10^{-15}$ for $L\in\{8,16,64,128,256,300\}$ and $24$ sources each, including the corners.
+\item The observed $\sup\norm{w-b}_\infty\abs{K^{-1}(w,b)}$ is $1.313$, $1.479$, $1.618$, $1.643$, $1.656$ and $1.658$ for these $L$, against $4A_\star=5.478$.
+\item Over all edges for $L\le512$, the marginals have imaginary part at most $2.7\cdot10^{-16}$, and vertex sums equal $1$ to within $6\cdot10^{-16}$. The observed $\sup_eD(e)\abs{\Pr(e\in M)-\frac14}$ is $0.25$, attained at corners, against the proven $3A_\star/2=2.054$.
+\end{itemize}
+
+\item[\texttt{constants.py}] The certified bounds in Table~\ref{tab:constants}, in exact rational arithmetic. This includes the input inequalities proved in Section~\ref{sec:constants}. The script also checks $c(264)\ge1/(7.76\cdot10^7)$ and $c(1000)\ge1/1129$.
+
+\item[\texttt{avoidance\_checks.py}] The end-to-end check described after Table~\ref{tab:constants}. It covers $L\in\{300,600,1000\}$, seven cut families and two profiles per family, $42$ instances in all. Values of $t$: $94$, $188$ and $313$. The determinant $\det(I-\eta H)$ is real and positive and lies below the Carleman bound in every instance. Exact $\ln U_L(M\cap F=\emptyset)/L\in[-0.0905,-0.0814]$.
+
+\item[\texttt{transfer\_pc.py}] Theorem~C and Table~\ref{tab:transfer}. It checks decomposability, smoothness and determinism structurally, computes the total mass for $L\le10$, and checks the value $1$ on every perfect matching for $L\le6$.
+
+\item[\texttt{lemma8\_flux.py}] Proposition~\ref{prop:flux} for every even $m$ from $4$ to $30$. For each $m$ it finds a perfect matching of the remnant and checks that no white-top middle edge lies in any perfect matching. It uses Kuhn's augmenting-path algorithm.
+\end{description}
+
+

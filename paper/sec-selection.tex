@@ -1,0 +1,129 @@
+\section{Selection lemmas and the proof of Theorems A and A$'$}\label{sec:selection}
+
+Let $L\ge64$ be even, $a:=\lfloor L/32\rfloor$, and let $Q:=\{a+1,\dots,L-a\}^2$ be the trimmed square, with side $\ell:=L-2a\ge15L/16$. A \emph{row of $Q$} is a set $\{(x_1,\rho):a<x_1\le L-a\}$, and similarly for columns. An edge is \emph{inside $Q$} if both endpoints lie in $Q$. Every vertex of $Q$ has boundary distance at least $a+1>L/32$, so every edge $e$ inside $Q$ has $2D(e)>L/16$. The number of vertices outside $Q$ is $L^2-\ell^2=(L-\ell)(L+\ell)\le\frac{L}{16}\cdot2L=\frac{L^2}8$. The number of edges not inside $Q$ is $2(L-\ell)(L+\ell-1)\le L^2/4$.
+
+All selection lemmas produce a set $F$ of distinct edges inside $Q$ with the following \emph{spread property} for some $t\ge L/(3\sqrt6)$. The edges can be indexed $f_1,\dots,f_t$ so that, for $i\ne j$ and any endpoints $u$ of $f_i$ and $u'$ of $f_j$,
+\begin{equation}\label{eq:spread}
+  \norm{u-u'}_\infty\ge3\abs{i-j}-2 .
+\end{equation}
+
+\subsection{Edge cuts}
+
+Fix a balanced edge cut $A\sqcup B$. Call $v\in Q$ \emph{mixed} if it has an incident $A$-edge inside $Q$ and an incident $B$-edge inside $Q$. Let $\mathcal R$ and $\mathcal C$ be the sets of rows and columns of $Q$ that contain a mixed vertex.
+
+\begin{lemma}\label{lem:mixed-edge}
+$\max(\abs{\mathcal R},\abs{\mathcal C})\ge L/\sqrt6$.
+\end{lemma}
+
+\begin{proof}
+Each side of the cut has at least $n/3-L^2/4=\frac5{12}L^2-\frac23L\ge L^2/3$ edges inside $Q$ (for $L\ge8$). If $\abs{\mathcal R}=\ell$ or $\abs{\mathcal C}=\ell$ we are done, since $\ell\ge15L/16$. Otherwise there is a row $\rho\notin\mathcal R$ and a column $\gamma\notin\mathcal C$. Along row $\rho$ no vertex is mixed, and consecutive vertices share a horizontal edge inside $Q$. So all edges inside $Q$ at vertices of row $\rho$ lie on one side of the cut. The same holds for every clean row and every clean column. A clean row and a clean column meet, so all of them share one side, say $A$. Then no $B$-edge inside $Q$ has an endpoint in a clean row or column. Both of its endpoints lie in $\mathcal R\times\mathcal C$, which spans at most $2\abs{\mathcal R}\abs{\mathcal C}$ edges. Hence $2\abs{\mathcal R}\abs{\mathcal C}\ge L^2/3$. The case where the clean lines share side $B$ is symmetric.
+\end{proof}
+
+\begin{lemma}[forbidden set for edge cuts]\label{lem:select-edge}
+For every balanced edge cut $A\sqcup B$ and every $S\subseteq V$ there is a set $F$ of edges inside $Q$ with the spread property and $R_{A,S}\subseteq\{M:M\cap F=\emptyset\}$.
+\end{lemma}
+
+\begin{proof}
+Say $\abs{\mathcal R}\ge L/\sqrt6$; columns are symmetric. Pick one mixed vertex $v_\rho$ in each row $\rho\in\mathcal R$. Keep the rows in a residue class mod $3$ that contains at least $\abs{\mathcal R}/3\ge L/(3\sqrt6)$ of them, and index them $\rho_1<\rho_2<\dots<\rho_t$, so that $\rho_j-\rho_i\ge3(j-i)$. For $v=v_{\rho_i}$, let $f_i$ be a $B$-edge at $v$ inside $Q$ if $v\in S$, and an $A$-edge at $v$ inside $Q$ if $v\notin S$. Both exist because $v$ is mixed. Suppose $\prof_A(M)=S$. If $v\in S$, the unique edge of $M$ at $v$ is an $A$-edge, so $f_i\notin M$. If $v\notin S$, then $v$ is covered by a $B$-edge of $M$, so again $f_i\notin M$. The endpoints of $f_i$ lie in rows $\rho_i-1,\rho_i,\rho_i+1$, which gives~\eqref{eq:spread} and shows that the $f_i$ are distinct.
+\end{proof}
+
+\subsection{Vertex cuts}
+
+Fix a balanced vertex set $S$. Call a row or column of $Q$ \emph{mixed} if it contains a vertex of $S$ and a vertex of $V\setminus S$, and let $\mathcal R$ and $\mathcal C$ be the sets of mixed rows and columns.
+
+\begin{lemma}\label{lem:mixed-vertex}
+$\max(\abs{\mathcal R},\abs{\mathcal C})\ge L/\sqrt6$.
+\end{lemma}
+
+\begin{proof}
+If $\abs{\mathcal R}=\ell$ or $\abs{\mathcal C}=\ell$ we are done. Otherwise there is a clean (single-coloured) row and a clean column. They meet, so all clean rows and all clean columns lie on the same side, say in $S$. Then every vertex of $Q\setminus S$ lies in a mixed row and a mixed column, so $\abs{Q\setminus S}\le\abs{\mathcal R}\abs{\mathcal C}$. On the other hand $\abs{Q\setminus S}\ge\abs{V\setminus S}-\abs{V\setminus Q}\ge L^2/3-L^2/8>L^2/6$. The case where the clean lines lie in $V\setminus S$ is symmetric, using $\abs S\ge L^2/3$.
+\end{proof}
+
+\begin{lemma}[forbidden set for vertex cuts]\label{lem:select-vertex}
+For every balanced vertex set $S$ there is a set $F$ of edges inside $Q$ with the spread property and $\mathrm{Cut}(S)\subseteq\{M:M\cap F=\emptyset\}$.
+\end{lemma}
+
+\begin{proof}
+Say $\abs{\mathcal R}\ge L/\sqrt6$; columns are symmetric. A mixed row of $Q$ is a path that meets both $S$ and $V\setminus S$, so it contains a horizontal edge inside $Q$ joining $S$ to $V\setminus S$. Choose one such edge in each mixed row, keep a residue class of rows mod $3$ with at least $L/(3\sqrt6)$ members, and index them by increasing row. The endpoints of $f_i$ lie in row $\rho_i$, so $\norm{u-u'}_\infty\ge\abs{\rho_i-\rho_j}\ge3\abs{i-j}$, which implies~\eqref{eq:spread}. No matching in $\mathrm{Cut}(S)$ uses an edge joining $S$ to $V\setminus S$.
+\end{proof}
+
+Both selections depend only on the cut, and on $S$, never on the random matching. No union bound over cuts or profiles is taken.
+
+\subsection{The constants}\label{sec:constants}
+
+Let $F=\{f_1,\dots,f_t\}$ satisfy the spread property and lie inside $Q$, and let $H$ be the matrix of Lemma~\ref{lem:tilted}. Put $v_L:=48A_\star/L$.
+
+\emph{Diagonal.} $H_{ii}=\Pr(f_i\in M)$. Since $2D(f_i)>L/16$, Proposition~\ref{prop:kernel}(c) gives $\abs{H_{ii}-\frac14}<3A_\star\cdot16/L=v_L$. So
+\[
+  \tr H\ge t\,p(L),\qquad p(L):=\tfrac14-v_L,\qquad \abs{H_{ii}}\le\tfrac14+v_L .
+\]
+\emph{Off-diagonal.} Let $k=\abs{i-j}\ge1$ and $d_k:=3k-2$. The endpoints $w_i$ of $f_i$ and $b_j$ of $f_j$ satisfy $\norm{w_i-b_j}_\infty\ge d_k$ and $2D(w_i,b_j)>L/16$. Since $\abs{\kappa_j}=1$, Proposition~\ref{prop:kernel}(b) and Lemma~\ref{lem:torus} give
+\[
+  \abs{H_{ij}}\le h_k:=G(d_k)+3G\bigl(\max(L/16,d_k)\bigr).
+\]
+Each $k$ occurs at most twice in a row of $H$. Hence
+\[
+  \max_i\sum_j\abs{H_{ij}}^2\le R(L):=\Bigl(\tfrac14+v_L\Bigr)^2+2\sum_{k\ge1}h_k^2,\qquad\text{and so}\qquad\norm H_F^2\le t\,R(L).
+\]
+For $k>L$ we have $d_k\ge L/16$, so $h_k=4G(d_k)\le4A_\star/d_k$ and $\sum_{k>L}h_k^2\le16A_\star^2\int_L^\infty\frac{dx}{(3x-2)^2}=\frac{16A_\star^2}{3(3L-2)}$.
+
+\emph{Monotonicity.} Each $h_k$ is nonincreasing in $L$ and $v_L$ decreases, so $R(L)$ is nonincreasing and $p(L)$ is increasing. We define
+\begin{equation}\label{eq:cL}
+  c(L):=\frac{p(L)^2}{6\sqrt6\,R(L)}\qquad\text{for even $L$ with $p(L)>0$, that is, $L>192A_\star\approx263$.}
+\end{equation}
+This is nondecreasing in $L$.
+
+\paragraph{Limit and rational certification.} Since $h_k\le4G(3k-2)$ and $\sum_kG(3k-2)^2<\infty$, dominated convergence gives
+\[
+  R_\infty=\frac{17}{16}+2A_\star^2\sum_{k=2}^\infty\frac1{(3k-2)^2},
+  \qquad
+  \lim_{L\to\infty}c(L)=\frac1{96\sqrt6\,R_\infty}
+  =\frac1{357.2361493\ldots}.
+\]
+Here $G(1)^2=1/2$ and $G(3k-2)=A_\star/(3k-2)$ for $k\ge2$. This is the limit of the defined function, not the conservative certificate in Table~\ref{tab:constants}.
+
+For the certificate, put $A_+=1.3696$, $U_+=0.70711$ and $s_-=0.136$. These satisfy $A_\star<A_+$, $1/\sqrt2<U_+$ and $s_-<1/(3\sqrt6)$. They can be checked using rational arithmetic alone. Let $a=1.414213$ and $b=1.414214$. Direct squaring gives $a^2<2<b^2$. The positive series
+\[
+  \ln(1+\sqrt2)=2\sum_{j=0}^\infty\frac{(\sqrt2-1)^{2j+1}}{2j+1}
+  >\ell_-:=2\sum_{j=0}^7\frac{(a-1)^{2j+1}}{2j+1}
+\]
+follows by integrating the geometric series for $1/(1-t^2)$. Exact rational comparison gives $(1+b)/(2\ell_-)<A_+$, proving the first inequality. The other two follow from $U_+^2>1/2$ and $54s_-^2<1$. The script checks these rational comparisons before computing the certificate. It substitutes $A_+,U_+,s_-$ to obtain a lower bound on $p$, an upper bound on $R$, and a lower bound on $c$.
+
+\begin{proof}[Proof of Theorems A and A$'$]
+Let $L\ge264$ be even. Take $F$ from Lemma~\ref{lem:select-edge} (for Theorem~A) or Lemma~\ref{lem:select-vertex} (for Theorem~A$'$). Then $p:=p(L)>0$, and $R:=R(L)\ge2h_1^2\ge1>p$, so Proposition~\ref{prop:avoid} applies with $t\ge L/(3\sqrt6)$:
+\[
+  U_L(\text{event})\le U_L(M\cap F=\emptyset)\le\exp\Bigl(-\frac{tp^2}{2R}\Bigr)\le\exp\bigl(-c(L)L\bigr).\qedhere
+\]
+\end{proof}
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$L$ & certified lower $p$ & certified upper $R$ & certified upper $1/c$\\
+\midrule
+264 & 0.000981 & 5.087 & $7.76\cdot10^7$\\
+300 & 0.030864 & 4.702 & 72\,578\\
+400 & 0.085648 & 3.981 & 7\,979.3\\
+600 & 0.140432 & 3.233 & 2\,410.2\\
+1000 & 0.184259 & 2.605 & 1\,128.1\\
+2000 & 0.217129 & 2.102 & 655.7\\
+5000 & 0.236851 & 1.774 & 465.1\\
+$10^4$ & 0.243425 & 1.655 & 410.7\\
+$10^5$ & 0.249342 & 1.536 & 363.3\\
+$\infty$ & 0.25 & 1.520 & 357.46\\
+\bottomrule
+\end{tabular}
+\caption{Certified bounds, rounded outwards. For finite $L$, the script \texttt{constants.py} sums the rational upper bounds on $h_k^2$ exactly for $k\le L$ and adds the integral tail bound above. The infinity row sums rational upper bounds on $G(3k-2)^2$ for $k\le20000$ and adds the tail bound $A_+^2/(9\cdot19999)$. Its reciprocal bound $357.46$ is conservative, not the exact limiting reciprocal.}
+\label{tab:constants}
+\end{table}
+
+\paragraph{How loose is this?} The script \texttt{avoidance\_checks.py} (not part of the proof) runs the edge-cut selection of Lemma~\ref{lem:select-edge} literally for $L\in\{300,600,1000\}$. It uses seven cut families (all horizontal edges, left half, diagonal, random hash, $4$-checkerboard, row stripes, comb), each with two profiles (a brick tiling and a random one), for 42 instances in all. Results:
+\begin{itemize}
+\item The mixed rows or columns always span the full side $\ell$.
+\item The selection gives $t=94,188,313$, against the guaranteed $41,82,137$.
+\item The smallest marginal is at least $0.229$.
+\item The largest row sum of $\abs H^2$ is at most $0.1503$, against the proven $R(L)\approx2.6$--$4.7$.
+\end{itemize}
+By Lemma~\ref{lem:tilted} with $\eta=1$, $\det(I-H)$ is the \emph{exact} avoidance probability. The script finds $\ln U_L(M\cap F=\emptyset)/L\in[-0.0905,-0.0814]$ across all 42 instances, while the proven exponents per unit $L$ are $-c(L)\approx-1.4\cdot10^{-5}$, $-4.1\cdot10^{-4}$ and $-8.9\cdot10^{-4}$. So at $L=1000$ the proof loses about a factor of $100$ in the exponent, most of it in $R$. Improving the constants is not attempted here.
+

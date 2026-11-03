@@ -1,0 +1,101 @@
+\section{Main results}\label{sec:results}
+
+Throughout, $A_\star:=\frac{1+\sqrt2}{2\ln(1+\sqrt2)}\approx1.369574$ is the kernel constant of Section~\ref{sec:kernel}. The function $c(L)$ is defined in~\eqref{eq:cL}. It is positive and nondecreasing for even $L\ge264$, and
+\begin{gather*}
+  c(264)\ge 1/(7.76\cdot10^{7}),\qquad c(400)\ge1/7980,\qquad c(1000)\ge1/1129,\\
+  c(10^4)\ge1/411,\qquad \lim_{L\to\infty}c(L)=1/(357.2361493\ldots)
+\end{gather*}
+The finite-$L$ inequalities are certified by exact rational bounds. The displayed limit is a numerical evaluation of the defining series, not the conservative certificate (Section~\ref{sec:constants}).
+
+\begin{named}{Theorem A (edge profiles)}
+Let $L\ge264$ be even. For every balanced edge cut $A\sqcup B$ and every $S\subseteq V$,
+\[
+  U_L\bigl(\prof_A(M)=S\bigr)\le e^{-c(L)L}.
+\]
+That is, $\alpha_L\le e^{-c(L)L}$.
+\end{named}
+
+\begin{named}{Theorem A$'$ (vertex cuts)}
+Let $L\ge264$ be even. For every $S\subseteq V$ with $L^2/3\le\abs S\le 2L^2/3$,
+\[
+  U_L\bigl(\text{no edge of $M$ joins $S$ to $V\setminus S$}\bigr)\le e^{-c(L)L}.
+\]
+That is, $\beta_L\le e^{-c(L)L}$.
+\end{named}
+
+The two statements are incomparable (Section~\ref{sec:prelim}). Theorem~A is the one that controls arbitrary, possibly interlaced, edge partitions. Theorem~A$'$ is the one that controls monotone circuits, whose balanced products split the vertex set but not necessarily the edge set (Section~\ref{sec:monotone}). Both follow from one estimate: the probability of avoiding a row-spread set of $t$ bulk edges is at most $e^{-\Omega(t)}$ (Proposition~\ref{prop:avoid}).
+
+\subsection{Min-entropy of the Rokhsar--Kivelson state}
+
+Put one qubit on each link $e\in E$, with $\ket1$ meaning ``dimer on $e$''. The Rokhsar--Kivelson (RK) state on the free square is the equal-amplitude superposition of all dimer coverings,
+\[
+  \ket{\Psi_L}:=Z_L^{-1/2}\sum_{M\in\PM_L}\ket M,\qquad \ket M:=\bigotimes_{e\in E}\ket{\one[e\in M]} .
+\]
+It is the ground state of the quantum dimer model at the RK point~\cite{RokhsarKivelson88}. Measuring $\ket{\Psi_L}$ in the dimer basis gives a sample from $U_L$.
+
+\begin{definition}
+Let $\rho$ be a density matrix with largest eigenvalue $\lambda_{\max}(\rho)$. Its \emph{min-entropy} (R\'enyi-$\infty$ entropy) is $S_\infty(\rho):=-\ln\lambda_{\max}(\rho)$. For a pure state $\ket\Psi$ on $\mathcal H_A\otimes\mathcal H_B$ with reduced state $\rho_A=\tr_B\ket\Psi\bra\Psi$, the operational \emph{single-copy entanglement} is $E_1=\ln\lfloor1/\lambda_{\max}(\rho_A)\rfloor$~\cite{EisertCramer05}. Since R\'enyi entropies are nonincreasing in their order, $S_\infty(\rho_A)\le S_\alpha(\rho_A)$ for every $\alpha\in[0,\infty]$, including the von Neumann entropy $S_1$.
+\end{definition}
+
+\begin{corollary}[min-entropy for every balanced link bipartition]\label{cor:entanglement}
+Let $L\ge264$ be even. Split the links into $E=A\sqcup B$ with $\abs A,\abs B\ge n/3$, and let $\rho_A$ be the reduced state of $\ket{\Psi_L}$ on the qubits in $A$. Then
+\[
+  S_\infty(\rho_A)\ \ge\ c(L)\,L ,
+\]
+and hence $S_\alpha(\rho_A)\ge c(L)L$ for every R\'enyi order $\alpha$. Operationally,
+\[
+  E_1\ge\ln\lfloor\exp(c(L)L)\rfloor\ge c(L)L-\ln2.
+\]
+\end{corollary}
+
+\begin{proof}
+Group the dimer coverings by their $A$-profile. By~\eqref{eq:rectangle},
+\[
+  \ket{\Psi_L}=\sum_S\sqrt{p_S}\,\ket{a_S}\otimes\ket{b_S},\qquad
+  \ket{a_S}=\abs{\cA_S}^{-1/2}\sum_{\alpha\in\cA_S}\ket\alpha,\quad
+  \ket{b_S}=\abs{\cB_S}^{-1/2}\sum_{\beta\in\cB_S}\ket\beta,
+\]
+with $p_S=\abs{\cA_S}\abs{\cB_S}/Z_L=U_L(R_{A,S})$. The sum runs over the profiles $S$ for which both sets are nonempty. Vectors $\ket{a_S}$ with distinct $S$ are supported on disjoint sets of basis states, so they are orthonormal, and likewise the $\ket{b_S}$. So this is a Schmidt decomposition, and the eigenvalues of $\rho_A$ are the numbers $p_S$. Theorem~A gives $\max_Sp_S\le e^{-c(L)L}$.
+\end{proof}
+
+The bound is linear in $L$, the length of a straight cut through the square, and it holds for every balanced link bipartition. That includes disconnected, interlaced and fractal-looking ones. We do not claim a matching upper bound for arbitrary partitions. A bound of order $L$ for the von Neumann entropy alone would not imply the corollary: a distribution can have one heavy atom and large Shannon entropy. Stéphan, Misguich and Pasquier~\cite{StephanMisguichPasquier12} relate R\'enyi entropies of RK states to classical boundary probabilities and study cylinder and Kitaev--Preskill geometries. We are not aware of a statement over all link bipartitions of the free square (see Section~\ref{sec:related-physics}).
+
+\subsection{Circuit consequences}
+
+\begin{named}{Theorem B (nonnegative decomposable PCs, constant TV)}
+Let $L\ge264$ be even. Let $C$ be a smooth decomposable PC with nonnegative weights and leaves of arity at most $2n/3$. If $\TV(U_L,Q_C)\le\eps$, then
+\[
+  \abs C\ \ge\ \frac{(1-\eps)^2}{\alpha_L}\ \ge\ (1-\eps)^2e^{c(L)L}.
+\]
+Determinism and structure are not assumed. If $C$ is decomposable but not smooth, smoothing costs a factor $O(n)$ in size, so $\abs C\ge\Omega((1-\eps)^2e^{c(L)L}/n)$.
+\end{named}
+
+\begin{named}{Theorem C (matching upper bound)}
+For even $L\ge4$ there is a smooth, decomposable, deterministic PC with univariate indicator leaves and all weights equal to one, of size at most $3L^2(1+\sqrt2)^L+2n$, that computes $Z_L\cdot U_L$ exactly. Splitting its products into binary ones makes it also structured-decomposable, with size at most $6L^2(1+\sqrt2)^L+2n$. The same construction gives a monotone arithmetic circuit for $P_L$ and a $(\min,+)$ circuit for $\OPT_L$, each of size $O(L^2(1+\sqrt2)^L)$.
+\end{named}
+
+So for nonnegative smooth decomposable PCs with leaves of arity at most $2n/3$, the minimum size needed to represent $U_L$ is $\exp(\Theta(L))=\exp(\Theta(\sqrt n))$, exactly and for every fixed error below one, with or without determinism.
+
+\begin{named}{Theorem D (exact monotone and tropical circuits)}
+Let $L\ge264$ be even.
+\begin{enumerate}[label=(\roman*)]
+\item Let $F$ be any polynomial whose monomials are exactly $\{\prod_{e\in M}z_e:M\in\PM_L\}$, with arbitrary positive coefficients. Every monotone arithmetic circuit for $F$ has at least $1/\beta_L\ge e^{c(L)L}$ gates.
+\item Every $(\min,+)$ circuit that computes $\OPT_L(w)$ for all $w\in\R_{\ge0}^E$ has at least $e^{c(L)L}$ gates. This holds for any finite real constants and $+\infty$ in the circuit.
+\end{enumerate}
+\end{named}
+
+Theorem~C shows that (i) is tight up to the constant in the exponent for $F=P_L$, and for coefficients that factor over edges. For general positive coefficients it is not tight: if the $Z_L$ coefficients are algebraically independent, a circuit with $q$ constants has transcendence degree at most $q$, so it needs at least $Z_L\ge2^{L^2/4}$ constants. We include (i) for all positive coefficients because it shows that the bound comes from the support alone.
+
+\begin{remark}[how Theorem D is proved, and what Theorem A does not give]\label{rem:K5-route}
+A monotone circuit for $F$ yields a sum of at most $s$ products $g_jh_j$ whose degrees are balanced (Lemma~\ref{lem:degree-decomp}). Each product covers a balanced vertex set but may use far fewer than $n/3$ edge variables on one side, since $\deg g_j>L^2/6$ only forces $\abs{\vars(g_j)}>L^2/6\approx n/12$. So Theorem~A does not apply directly. We use Theorem~A$'$ instead. It is proved by the same method as Theorem~A, with a selection lemma for vertex cuts (Lemma~\ref{lem:select-vertex}) in place of the one for edge cuts. Our first proof of Theorem~D went through a combinatorial block measure and gave a constant near $3\cdot10^{-13}$ for $4\mid L$. We do not include it.
+\end{remark}
+
+\subsection{Scope of the hypotheses}\label{sec:scope}
+
+\begin{itemize}
+\item \textbf{Decomposability is needed.} Without it the claim of Theorem~B is false, even with nonnegative weights and univariate leaves: $Z_LU_L(x)=\prod_{v\in V}\sum_{e\ni v}\bigl([x_e=1]\prod_{e'\ni v,\,e'\ne e}[x_{e'}=0]\bigr)$ is a circuit of size $O(n)$. It is not decomposable, because each edge variable appears in two vertex factors, and marginals cannot be read off by evaluating it.
+\item \textbf{Leaf arity is needed.} One leaf of arity $n$ can be $U_L$. A leaf of arity $n-1$ already defeats any fixed $\eps$ above about $1/4$. Take $Q=U_L^{(-e)}\otimes\delta_0$ for a bulk edge $e$, where $U_L^{(-e)}$ is the marginal on the other edges. Then $\TV(U_L,Q)=\Pr(e\in M)\approx1/4$. Our proof allows any arity up to $2n/3$, with each leaf counted as one node.
+\item \textbf{Smoothness is technical.} Multiply each child of a sum node by constant-one leaves $[x=0]+[x=1]$ for its missing variables. This costs a factor $O(n)$.
+\item \textbf{Nonnegative weights.} The proofs of Theorems~B and~D use nonnegativity in two places: in the overlap inequality $\sqrt{\sum_ua_u}\le\sum_u\sqrt{a_u}$ for nonnegative mixture weights, and in the claim that every product term is supported on perfect matchings. Section~\ref{sec:signed} discusses signed circuits.
+\item \textbf{The error measure.} The bound is $(1-\eps)^2e^{c(L)L}$. It stays superpolynomial while $1-\eps\ge e^{-o(L)}$, and says nothing at $\eps=1$.
+\end{itemize}

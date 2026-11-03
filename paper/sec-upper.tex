@@ -1,0 +1,43 @@
+\section{The matching upper bound}\label{sec:upper}
+
+\begin{proof}[Proof of Theorem C]
+\emph{States.} For $c=1,\dots,L-1$, the \emph{state} $s_c\subseteq\{1,\dots,L\}$ of a perfect matching $M$ is the set of rows $\rho$ such that the horizontal edge $(c,\rho)$--$(c+1,\rho)$ lies in $M$. Put $s_0=s_L=\emptyset$.
+
+\emph{Column fill.} Given $(s_{c-1},s_c)$, the vertices of column $c$ that are not yet covered are those in rows outside $s_{c-1}\cup s_c$. They must be paired by vertical edges inside column $c$. This is possible iff $s_{c-1}\cap s_c=\emptyset$ and the uncovered rows form runs of even length, and then the pairing is unique. Call such a pair \emph{compatible} and write $\mathrm{fill}(s_{c-1},s_c)$ for the set of vertical edges it uses. A perfect matching is the same thing as a sequence $s_0,\dots,s_L$ of states in which consecutive pairs are compatible.
+
+\emph{Circuit.} The leaves are $[x_e=0]$ and $[x_e=1]$ for every edge $e$. Put $N_0(\emptyset):=1$ as the only state at column zero. Retain only states reachable from it by compatible pairs, and sum only over reachable $s'$. For $c=1,\dots,L$,
+\begin{multline*}
+  N_c(s):=\sum_{s':\,(s',s)\text{ compatible}}\ N_{c-1}(s')\times\prod_{e\text{ vertical in column }c}[x_e=\one(e\in\mathrm{fill}(s',s))]\\
+  \times\prod_{\rho=1}^L[x_{(c,\rho)(c+1,\rho)}=\one(\rho\in s)],
+\end{multline*}
+where the last product is omitted for $c=L$. The root is $N_L(\emptyset)$, and all weights equal one.
+
+\emph{Structure.} $N_{c-1}(\cdot)$ has scope ``edges in columns $<c$ and horizontal edges between columns $<c$'', and the new leaves are the vertical edges of column $c$ and the horizontal edges between columns $c$ and $c+1$. So the circuit is decomposable. All children of $N_c(s)$ have the same scope, so it is smooth. Distinct children of $N_c(s)$ differ in $s'$, hence in the leaves for the horizontal edges between columns $c-1$ and $c$, so it is deterministic. For structure, write each product as a chain of binary products that multiplies in the leaves of column $c$ one at a time, in a fixed edge order that does not depend on $s'$ or $s$. Every binary product then respects the caterpillar vtree that adds one edge at a time in this order, so the circuit is structured-decomposable.
+
+\emph{Correctness.} The root equals $1$ on each perfect matching and $0$ elsewhere, so its total mass is $Z_L$.
+
+\emph{Size.} A compatible pair is a word over $\{$covered from the left, covered from the right, vertical domino$\}$, where a vertical domino occupies two consecutive rows. So the number $a_L$ of compatible pairs satisfies $a_L=2a_{L-1}+a_{L-2}$ with $a_0=1$, $a_1=2$, hence $a_L\le(1+\sqrt2)^L$. Each product node has at most $2L$ children. There are at most $La_L$ product nodes, at most $La_L$ sum nodes and $2n$ leaves. The wires number at most $La_L(2L+1)$. The total is at most $a_L(2L^2+3L)+2n\le3L^2(1+\sqrt2)^L+2n$ for $L\ge3$. In the binary form, a product with $k\le2L$ children becomes $k-1$ product nodes with $2(k-1)$ wires. The sum nodes and their $La_L$ wires are unchanged. The total is at most $3La_L(2L-1)+2La_L+2n\le6L^2(1+\sqrt2)^L+2n$.
+
+\emph{Other semirings.} Replace $[x_e=1]$ by $z_e$ and $[x_e=0]$ by $1$. This gives a monotone arithmetic circuit for $P_L$, since each matching follows exactly one path. Replace $\times$ by $+$, $+$ by $\min$, $[x_e=1]$ by $w_e$ and $[x_e=0]$ by $0$. This gives a $(\min,+)$ circuit for $\OPT_L$.
+\end{proof}
+
+The script \texttt{transfer\_pc.py} builds this circuit and checks it (Appendix~\ref{app:checks}). It verifies decomposability, smoothness and determinism structurally, and checks that the circuit equals one on every perfect matching for $L\le6$. The total mass is $2$, $36$, $6728$, $12\,988\,816$ and $258\,584\,046\,368$ for $L=2,4,6,8,10$, which are the known domino counts~\cite{Kasteleyn61,TemperleyFisher61}. Value one on all $Z_L$ matchings together with total mass $Z_L$ forces value zero elsewhere, by nonnegativity. The sizes are listed in Table~\ref{tab:transfer}.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+$L$ & nodes & wires & $Z_L$\\
+\midrule
+2 & 15 & 14 & 2\\
+4 & 101 & 290 & 36\\
+6 & 478 & 3\,354 & 6\,728\\
+8 & 2\,546 & 31\,603 & 12\,988\,816\\
+10 & 15\,138 & 266\,540 & 258\,584\,046\,368\\
+\bottomrule
+\end{tabular}
+\caption{Size of the column-transfer PC of Theorem~C.}
+\label{tab:transfer}
+\end{table}
+
+The exponent of the upper bound is $\ln(1+\sqrt2)\approx0.881$ per unit of $L$. The certified lower bound is $c(L)\ge1/1129$ for $L\ge1000$. Both are $\Theta(L)$. We do not try to close the gap between the constants.

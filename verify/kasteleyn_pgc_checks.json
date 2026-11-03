@@ -1,0 +1,32 @@
+[
+ {
+  "L": 2,
+  "matchings": 2,
+  "faces": 1,
+  "faces_violating": 0,
+  "real_gauge_common_sign": 1,
+  "complex_common_phase": "{1}",
+  "polynomial_identity_checks": 6,
+  "tilted_identity_checks": 25
+ },
+ {
+  "L": 4,
+  "matchings": 36,
+  "faces": 9,
+  "faces_violating": 0,
+  "real_gauge_common_sign": 1,
+  "complex_common_phase": "{1}",
+  "polynomial_identity_checks": 6,
+  "tilted_identity_checks": 25
+ },
+ {
+  "L": 6,
+  "matchings": 6728,
+  "faces": 25,
+  "faces_violating": 0,
+  "real_gauge_common_sign": 1,
+  "complex_common_phase": "{1}",
+  "polynomial_identity_checks": 6,
+  "tilted_identity_checks": 25
+ }
+]

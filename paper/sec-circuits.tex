@@ -1,0 +1,167 @@
+\section{Circuit lower bounds}\label{sec:circuits}
+
+\subsection{Overlap with sums of balanced products}
+
+\begin{lemma}[overlap]\label{lem:overlap}
+Let $P$ be a distribution on $\PM_L$ with $P(R_{A,S})\le\alpha$ for every balanced edge cut $A\sqcup B$ and every $S\subseteq V$. Let
+\[
+  Q=\sum_{u=1}^kg_u(x_{A_u})\,h_u(x_{B_u}),
+\]
+where $g_u,h_u\ge0$, each $A_u\sqcup B_u$ is a balanced edge cut (the cuts may differ between terms), and $\sum_xQ(x)=1$. Then $1-\TV(P,Q)\le\sqrt{k\alpha}$.
+\end{lemma}
+
+\begin{proof}
+Drop zero terms and write $g_uh_u=\lambda_uq_u$, where $q_u=q_u^A\otimes q_u^B$ is a product of probability distributions, $\lambda_u\ge0$ and $\sum_u\lambda_u=1$. Pointwise, $\min(P,Q)\le\sqrt{PQ}$ and $\sqrt{\sum_u\lambda_uq_u}\le\sum_u\sqrt{\lambda_uq_u}$. Hence
+\[
+  1-\TV(P,Q)=\sum_x\min(P(x),Q(x))\le\sum_u\sqrt{\lambda_u}\,\BC(P,q_u).
+\]
+Fix one product $q=q^A\otimes q^B$ across a balanced cut $A\sqcup B$. Only perfect matchings contribute to $\BC(P,q)$. Group them by $A$-profile and use~\eqref{eq:rectangle} and Cauchy--Schwarz within each class:
+\[
+  \BC(P,q)=\sum_S\sum_{\alpha\in\cA_S,\beta\in\cB_S}\sqrt{P(\alpha\cup\beta)}\sqrt{q^A(\alpha)q^B(\beta)}\le\sum_S\sqrt{P(R_{A,S})\,a_Sb_S},
+\]
+with $a_S=q^A(\cA_S)$ and $b_S=q^B(\cB_S)$. The sets $\cA_S$ are pairwise disjoint, so $\sum_Sa_S\le1$, and likewise $\sum_Sb_S\le1$. A second application of Cauchy--Schwarz gives $\BC(P,q)\le\sqrt\alpha\sum_S\sqrt{a_Sb_S}\le\sqrt\alpha$. Finally $\sum_u\sqrt{\lambda_u}\le\sqrt k$.
+\end{proof}
+
+Mass that $Q$ puts on non-matchings, or on pairs $(\alpha,\beta)$ that do not combine into a matching, never helps. Nothing is pruned or renormalized. Different terms may use different cuts, because $\alpha$ is uniform over cuts. This is what lets the argument cover nondeterministic circuits.
+
+\subsection{Balanced decomposition of decomposable circuits}
+
+\begin{lemma}[balanced decomposition]\label{lem:balanced-decomp}
+Let $C$ be a smooth decomposable PC over $x\in\{0,1\}^E$ with nonnegative weights and leaves of arity at most $2n/3$. Then, as functions on $\{0,1\}^E$,
+\[
+  f_C=\sum_{u\in\cU}f_u(x_{A_u})\,h_u(x_{E\setminus A_u}),
+\]
+where each $f_u,h_u\ge0$, each $A_u$ satisfies $n/3<\abs{A_u}\le2n/3$, and $\abs\cU\le\abs C$.
+\end{lemma}
+
+\begin{proof}
+Let $X$ be the scope of the root. If $\abs X\le2n/3$, pick any $A\supseteq X$ with $n/3<\abs A\le2n/3$; then $f_C=f_C(x_A)\cdot1$ is a single term. Otherwise, replace each product node of fan-in $d$ by a chain of $d-1$ binary products. This preserves decomposability and the computed functions. The number of nodes becomes at most the original number of nodes plus wires, that is, at most $\abs C$. Let $\cU$ be the set of nodes with $\abs{X_u}\in(n/3,2n/3]$, and put $A_u:=X_u$. We claim that every node $v$ with $\abs{X_v}>2n/3$ satisfies
+\[
+  f_v=\sum_{u\in\cU}f_u\,h_{u,v},\qquad h_{u,v}\ge0\ \text{a function of $x_{X_v\setminus X_u}$},
+\]
+and argue by induction in topological order. No leaf has scope larger than $2n/3$. At a sum node, smoothness gives $X_c=X_v$ for every child $c$, so $f_v=\sum_cw_cf_c=\sum_uf_u\bigl(\sum_cw_ch_{u,c}\bigr)$. At a product node $v=c_1\times c_2$ with $\abs{X_{c_1}}\ge\abs{X_{c_2}}$ we have $\abs{X_{c_1}}>n/3$. If $\abs{X_{c_1}}\le2n/3$, then $c_1\in\cU$ and $f_v=f_{c_1}f_{c_2}$. Otherwise $f_v=\sum_uf_u\,(h_{u,c_1}f_{c_2})$, and $(X_{c_1}\setminus X_u)\sqcup X_{c_2}=X_v\setminus X_u$ by decomposability. Apply the claim at the root. A function of $x_{X\setminus X_u}$ is also a function of $x_{E\setminus X_u}$.
+\end{proof}
+
+This is the standard balanced-product argument for syntactically multilinear circuits~\cite{RazYehudayoff08}. Martens and Medabalimi state the same form with $k\le s^2$ terms for decomposable SPNs with univariate leaves~\cite[Thm.~38]{MartensMedabalimi14}. Using their theorem gives $\abs C\ge(1-\eps)/\sqrt{\alpha_L}$, the same exponent up to a factor of two.
+
+\begin{proof}[Proof of Theorem B]
+Lemma~\ref{lem:balanced-decomp}, applied to $f_C/\sum_xf_C(x)$, writes $Q_C$ as a sum of $k\le\abs C$ nonnegative products across balanced edge cuts. Lemma~\ref{lem:overlap} with $P=U_L$ gives $1-\eps\le1-\TV(U_L,Q_C)\le\sqrt{\abs C\alpha_L}$. Theorem~A bounds $\alpha_L$.
+\end{proof}
+
+\subsection{Monotone arithmetic circuits}\label{sec:monotone}
+
+This subsection proves Theorem~D(i). The cleaning and decomposition steps are standard~\cite{Valiant80,JerrumSnir82}; we give them in the form we need, with no homogenization cost.
+
+Let $F$ have support exactly $\{z^M:M\in\PM_L\}$, where $z^M:=\prod_{e\in M}z_e$, with positive coefficients. Let $\Gamma$ be a monotone arithmetic circuit for $F$ with $s$ nodes, and put $d:=L^2/2$.
+
+\begin{lemma}[cleaning]\label{lem:cleaning}
+After removing gates that compute the zero polynomial, and gates that no longer reach the output, every remaining gate of $\Gamma$ computes a nonzero, homogeneous, multilinear polynomial with nonnegative coefficients. The size does not increase.
+\end{lemma}
+
+\begin{proof}
+In a monotone circuit, a sum is zero iff both inputs are zero, and a product is zero iff one input is zero. So zero gates can be found exactly and removed: replace zero products by zero and drop zero summands. Let $v$ be a remaining gate, and follow one path from $v$ to the output. At a sum gate, $F_{\mathrm{parent}}\ge F_v$ coefficientwise. At a product gate, $F_{\mathrm{parent}}\ge F_v\cdot a'z^{\gamma'}$, where $a'z^{\gamma'}$ is any term of the other (nonzero) factor. By induction, $F\ge a\,z^\gamma F_v$ coefficientwise for some $a>0$ and monomial $z^\gamma$. This does not depend on whether $v$ is shared, because we follow a single path. Every monomial $z^\beta$ of $F_v$ thus gives a monomial $z^{\beta+\gamma}$ of $F$, which is squarefree of degree $d$. So $F_v$ is multilinear and homogeneous of degree $d-\abs\gamma$.
+\end{proof}
+
+\begin{lemma}[degree-balanced decomposition]\label{lem:degree-decomp}
+If $\Gamma$ is cleaned and $d\ge2$, then
+\[
+  F=\sum_{j=1}^rg_jh_j,\qquad r\le s,
+\]
+where all $g_j,h_j$ are nonzero homogeneous polynomials with nonnegative coefficients, $d/3<\deg g_j\le2d/3$, and $\deg h_j=d-\deg g_j$.
+\end{lemma}
+
+\begin{proof}
+Call a gate \emph{high} if its degree exceeds $2d/3$ and \emph{medium} if its degree lies in $(d/3,2d/3]$. We express each high gate as $\sum_{u\ \mathrm{medium}}F_u\,H_{u,v}$ with nonnegative polynomial coefficients $H_{u,v}$, homogeneous of degree $\deg v-\deg u$. At a high sum gate, both children are high of the same degree (Lemma~\ref{lem:cleaning}); add their expressions. At a high product gate, at most one child is high, because degrees add and are at most $d$. If one child is high, expand it and multiply each coefficient by the other child. If neither child is high, then at least one child is medium, since otherwise the degrees would sum to at most $2d/3$. Select one medium child $u$; the expression is $F_u$ times the other child. Inputs and constants are not high. Apply this at the output and collect equal labels $u$. This gives at most one term per medium gate.
+\end{proof}
+
+\begin{lemma}[products are vertex-cut rectangles]\label{lem:vertex-rectangle}
+In the decomposition of Lemma~\ref{lem:degree-decomp}, for each $j$ there is a balanced vertex set $S_j$ such that every monomial of $g_jh_j$ is $z^M$ for some $M\in\mathrm{Cut}(S_j)$.
+\end{lemma}
+
+\begin{proof}
+All coefficients are nonnegative, so every monomial of $g_jh_j$ is a monomial of $F$, that is, $z^M$ for a perfect matching $M$. For monomials $z^\alpha$ of $g_j$ and $z^\beta$ of $h_j$, the edge sets $\alpha$ and $\beta$ are disjoint and $\alpha\cup\beta$ is a perfect matching. If $z^{\alpha'}$ is another monomial of $g_j$, then $\alpha$ and $\alpha'$ both perfectly match $V\setminus V(\beta)$. So all monomials of $g_j$ cover one vertex set $S_j$, and all monomials of $h_j$ cover $V\setminus S_j$. Every matching $\alpha\cup\beta$ uses only edges inside $S_j$ or inside $V\setminus S_j$, so it lies in $\mathrm{Cut}(S_j)$. Finally $\abs{S_j}=2\deg g_j\in(2d/3,4d/3]=(L^2/3,2L^2/3]$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem D(i)]
+Clean $\Gamma$ and decompose $F=\sum_{j\le r}g_jh_j$. Each monomial of $F$ has a positive coefficient, and there is no cancellation, so each $z^M$ with $M\in\PM_L$ occurs in some $g_jh_j$. By Lemma~\ref{lem:vertex-rectangle}, $\PM_L\subseteq\bigcup_j\mathrm{Cut}(S_j)$. Theorem~A$'$ gives $Z_L\le\sum_j\abs{\mathrm{Cut}(S_j)}\le r\,\beta_LZ_L$. So $s\ge r\ge1/\beta_L\ge e^{c(L)L}$.
+\end{proof}
+
+The coefficients of $F$ play no role beyond being positive. The bound is a statement about the support $\PM_L$.
+
+\subsection{Tropical circuits}
+
+\begin{proof}[Proof of Theorem D(ii)]
+Let $\Phi$ be a $(\min,+)$ circuit with $s$ gates that computes $\OPT_L$ on $\R_{\ge0}^E$. Expand it formally. Each gate computes the minimum of a finite multiset of affine forms $c+\alpha\cdot w$ with $c\in\R$ and $\alpha\in\mathbb N^E$; a constant $+\infty$ contributes the empty multiset. Build an arithmetic circuit $\Gamma$ of the same shape. Replace $\min$ by $+$, tropical $+$ by $\times$, $w_e$ by $z_e$, each finite constant by $1$, and $+\infty$ by $0$. By induction, the output of $\Gamma$ is $\sum z^{\alpha}$ over the multiset of forms of $\Phi$, with positive integer multiplicities. Three observations identify its lowest-degree part.
+
+\emph{No form has $\abs\alpha<d$.} Each form is at least $\OPT_L$ on $\R_{\ge0}^E$. At $w=\lambda\one$ this reads $c+\lambda\abs\alpha\ge\lambda d$ for all $\lambda\ge0$, so $\abs\alpha\ge d$.
+
+\emph{Every form with $\abs\alpha=d$ is a perfect matching.} Fix $v\in V$. Put weight $\lambda$ on the edges at $v$ and $0$ elsewhere. Every perfect matching then costs exactly $\lambda$, so $c+\lambda\sum_{e\ni v}\alpha_e\ge\lambda$ for all $\lambda\ge0$, and $\sum_{e\ni v}\alpha_e\ge1$. Summing over $v$ gives $2\abs\alpha\ge L^2=2d$. If $\abs\alpha=d$, every vertex sum equals one. Since $\alpha$ has nonnegative integer entries, it is the indicator of a perfect matching.
+
+\emph{Every perfect matching occurs.} Fix $M$. On a nonempty open set of positive weights, $M$ is the unique optimum. For example, take weight $1$ on $M$ and $d+1$ elsewhere, and perturb slightly. On this set the minimum of the finitely many forms equals $\sum_{e\in M}w_e$. The set where a given form equals this linear function is closed, and finitely many closed sets cover the open set, so one of them has nonempty interior. That form is identically $\sum_{e\in M}w_e$, so it has $\alpha=\one_M$.
+
+So the lowest-degree part of the output of $\Gamma$ has degree $d$ and support exactly $\PM_L$, with positive coefficients. Extract it gate by gate. At a sum keep the children of least degree; at a product multiply the least-degree parts. With nonnegative coefficients there is no cancellation, so this computes the least-degree part with at most $s$ gates. Theorem~D(i) now applies.
+\end{proof}
+
+Transfers of this kind between tropical and monotone arithmetic circuits go back to Jerrum and Snir~\cite{JerrumSnir82}. Jukna~\cite{Jukna16Tropical} relates pure tropical complexity of homogeneous $0/1$ families to their support complexity; see also~\cite{JuknaTropical23}. We include a direct proof because it fixes the input domain ($\R_{\ge0}^E$) and allows arbitrary finite constants.
+
+\subsection{The vertex route and Valiant's triangular grid}\label{sec:vertex-route}
+
+A bound on vertex cuts alone already gives a constant-TV lower bound for decomposable PCs with univariate leaves, at a polynomial cost in size. We use this to prove Proposition~\ref{prop:triangular}. For the square grid it also gives a second proof of a weaker form of Theorem~B, using Theorem~A$'$ in place of Theorem~A.
+
+\begin{lemma}[vertex route]\label{lem:vertex-route}
+Let $G$ be a graph with $N_G$ vertices, $d:=N_G/2\ge2$, and let $P$ be the uniform distribution on its perfect matchings, viewed as edge indicators. Suppose that for every $S\subseteq V(G)$ with $N_G/3<\abs S\le2N_G/3$, at most a fraction $\delta$ of the perfect matchings have no edge joining $S$ to its complement. Let $C$ be a smooth decomposable PC with nonnegative weights and univariate leaves, with root scope $X$, and suppose $\TV(P,Q_C)\le\eps$. Put $m:=\abs{E(G)\setminus X}$. Then
+\[
+  \abs C+\frac{m}{d}\ \ge\ \frac{(1-\eps)^2}{\delta\cdot O(d^2)}.
+\]
+If $X=E(G)$ or $\abs{E(G)}=O(d)$, this gives $\abs C\ge(1-\eps)^2/(\delta\cdot O(d^2))$. In these two cases, for every fixed error below one, the bound is exponential in $t$ when $\delta\le e^{-\Omega(t)}$ and $d=\mathrm{poly}(t)$.
+\end{lemma}
+
+\begin{proof}
+\emph{Generating polynomial.} For each missing variable $e\in E(G)\setminus X$, multiply the root by the constant-one univariate factor $[x_e=0]+[x_e=1]$. This adds $O(m)$ nodes and wires and leaves the function on $\{0,1\}^{E(G)}$ unchanged. The padded circuit is still smooth and decomposable, and its root scope is all of $E(G)$. Replace each univariate leaf $\lambda(x_e)$ by $\lambda(0)+\lambda(1)z_e$, and divide the output by $\sum_{x\in\{0,1\}^{E(G)}}f_C(x)$. Smoothness at sums and disjoint scopes at products show inductively that the resulting circuit computes
+\[
+  \sum_xQ_C(x)z^x,\qquad z^x:=\prod_{e:x_e=1}z_e.
+\]
+In particular, each padding factor contributes $1+z_e$. The normalizing denominator includes the factor $2^m$ from the missing variables.
+
+\emph{Homogenization.} Binarize the products. For each gate $v$ and $0\le j\le d$, compute the degree-$j$ part $v^{(j)}$. At a sum use $v^{(j)}=\sum_cw_cc^{(j)}$; at a binary product use
+\[
+  v^{(j)}=\sum_{i=0}^jc_1^{(i)}c_2^{(j-i)}.
+\]
+The original circuit costs $O(d^2\abs C)$ nodes and wires. Append the padding factors one at a time. Multiplication by $1+z_e$ uses only $v^{(j)}=c^{(j)}+z_ec^{(j-1)}$, with negative indices zero, so each missing variable costs $O(d)$, not $O(d^2)$. The total size is $s'=O(d^2\abs C+dm)$. All coefficients remain nonnegative. Each product has disjoint variable scopes, and every retained gate is homogeneous and multilinear. Remove zero gates and gates that do not reach the output. The output is
+\[
+  H(z):=\sum_{\abs x=d}Q_C(x)z^x.
+\]
+If $H=0$, then $\TV(P,Q_C)=1$ and the claimed bound is trivial. Otherwise continue.
+
+\emph{Decomposition.} Apply the degree-balanced induction of Lemma~\ref{lem:degree-decomp} to this homogeneous circuit. Since inputs have degree at most one and $d\ge2$, no input is high. It gives
+\[
+  H=\sum_{u=1}^rF_uh_u,\qquad r\le s'.
+\]
+Here $F_u$ has degree $k_u\in(d/3,2d/3]$ and uses a variable set $A_u$, while $h_u$ has degree $d-k_u$ and uses variables outside $A_u$. The disjointness follows through the induction: a coefficient is multiplied only by the other child of a product, whose scope is disjoint. Both factors are nonzero with nonnegative coefficients.
+
+\emph{Overlap.} Let $Q_d(x):=Q_C(x)\one[\abs x=d]$, the coefficient array of $H$. Normalize each product's coefficient array as $\lambda_uq_u$, where $q_u=q_u^A\otimes q_u^B$ is a product distribution across $A_u\sqcup B_u=E(G)$. Each coefficient array is extended by zero to assignments that set a variable absent from the polynomial to one. Then $\sum_u\lambda_u=H(\one)\le1$, and
+\[
+  1-\TV(P,Q_C)=\sum_x\min(P(x),Q_d(x))
+  \le\sum_u\sqrt{\lambda_u}\,\BC(P,q_u).
+\]
+Fix $u$, put $A=A_u$, $B=B_u$ and $k=k_u$. Let $\cA_S$ be the edge subsets of $A$ perfectly matching $S$, and $\cB_S$ the edge subsets of $B$ perfectly matching its complement. Since $q_u^A$ is supported on $k$-edge sets, only $\abs S=2k\in(N_G/3,2N_G/3]$ can contribute. The rectangle $R_S=\cA_S\times\cB_S$ consists of perfect matchings with no edge across $S$, so $P(R_S)\le\delta$. Cauchy--Schwarz within each rectangle gives
+\[
+  \BC(P,q_u)\le\sum_{\abs S=2k}\sqrt{P(R_S)a_Sb_S}
+  \le\sqrt\delta\sum_{\abs S=2k}\sqrt{a_Sb_S}\le\sqrt\delta,
+\]
+where $a_S=q_u^A(\cA_S)$ and $b_S=q_u^B(\cB_S)$. The last inequality uses Cauchy--Schwarz and the disjointness of the sets $\cA_S$, and separately of the sets $\cB_S$. Thus
+\[
+  1-\eps\le\sqrt{r\delta}\le\sqrt{O(d^2\abs C+dm)\delta}.
+\]
+This proves the stated bound. If $\abs{E(G)}=O(d)$, then $m/d=O(1)$ is absorbed into $O(\abs C)$, since $\abs C\ge1$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:triangular}]
+(a) Let $G_r$ be Valiant's triangular grid with $r$ vertices on each side, so $N_G=r(r+1)/2$. Let $S$ satisfy $N_G/3<\abs S\le2N_G/3$. Then the larger of $S$ and $V\setminus S$ has at most twice as many vertices as the smaller. This is the hypothesis $\abs{V_b}\le\abs{V_r}\le2\abs{V_b}$ of Valiant's Lemma~7, up to naming the sides. Lemma~7 (with $t=22$) gives $hr$ edges joining $S$ to $V\setminus S$ that are far apart and far from the sides. The proof of Theorem~1~\cite[pp.~311--312]{Valiant80} conditions on the matching outside disjoint copies of $G_{22}$ centred on these edges. Corollary~9 then shows that the number of all perfect matchings exceeds the number avoiding these edges by a factor of at least $K^{hr}$, for a constant $K>1$. Matchings with no edge across $S$ avoid them, so $\delta\le K^{-hr}$. Here $d=\Theta(r^2)$ and $\abs{E(G_r)}=O(r^2)=O(d)$, since the grid has bounded degree. Lemma~\ref{lem:vertex-route} therefore gives (a) with an $O(r^4)$ loss. The condition $d\ge2$ holds for all sufficiently large admissible $r$.
+
+(b) Valiant's Theorem~2~\cite{Valiant80} gives an arithmetic circuit (over a field of characteristic zero) of size $\mathrm{poly}(r)$ for $P_{G_r}$, using Kasteleyn's Pfaffian method~\cite{Kasteleyn61}. Dividing by the constant $P_{G_r}(\one)$ gives a PGC for the uniform distribution.
+\end{proof}
+
+\begin{remark}
+For the square grid, Lemma~\ref{lem:vertex-route} with Theorem~A$'$ gives $\abs C\ge(1-\eps)^2e^{c(L)L}/O(L^4)$ for univariate leaves. Theorem~B is stronger in two ways: it has no polynomial loss, and it allows leaves of arity up to $2n/3$. The edge-profile bound of Theorem~A is what makes the stronger form possible. Degree balance, obtained by homogenization, needs only the vertex-cut bound but is tied to fixed-cardinality targets and univariate leaves. Theorem~D does not use this PC-to-generating-polynomial conversion or its homogenization; its monotone circuit is already homogeneous after cleaning.
+\end{remark}

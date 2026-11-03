@@ -1,0 +1,111 @@
+\section{The free-square kernel}\label{sec:kernel}
+
+This section proves that $\abs{K^{-1}(w,b)}\le 4A_\star/\norm{w-b}_\infty$ for all white $w$ and black $b$, with no restriction to the bulk and no $1/L$ term. It also proves that bulk edge marginals are $1/4+O(1/D(e))$. The proof uses odd reflections onto a torus of side $2N$ and a closed form for a one-dimensional resolvent.
+
+\paragraph{Notation.} Put $M:=2N=2(L+1)$, $c_j:=\cos(\pi j/N)$ for $j\in\Z$, $\kappa:=\asinh1=\ln(1+\sqrt2)$, and
+\[
+  A_\star:=\frac{1+\sqrt2}{2\kappa}\approx1.3695745,\qquad G(d):=\min\Bigl(\frac1{\sqrt2},\frac{A_\star}{d}\Bigr)\quad(d>0).
+\]
+The function $G$ is nonincreasing. On $\Z_M$ let $d(\cdot)$ denote cyclic distance to $0$, and for $z\in\Z_M^2$ put $\norm z_T:=\max(d(z_1),d(z_2))$.
+
+\subsection{Diagonalization}\label{sec:kernel-diag}
+
+The path adjacency matrix $P_L$ has orthonormal eigenvectors $\phi_j(x)=\sqrt{2/N}\sin(\pi jx/N)$ with eigenvalues $2c_j$, for $j=1,\dots,L$. By~\eqref{eq:T-tensor}, $T$ has eigenvalues $\lambda_{jk}=2c_j+2ic_k$, $1\le j,k\le L$. If $\lambda_{jk}=0$ then $c_j=c_k=0$, so $j=N/2$, which is impossible because $N$ is odd. Hence $T$ and $K$ are invertible.
+
+Let $T_M$ be the nearest-neighbour operator on the torus $\Z_M^2$ with weight $1$ on horizontal and $i$ on vertical bonds. Its eigenfunctions are $e^{i\pi(jz_1+kz_2)/N}$ with eigenvalues $\lambda_{jk}$, $j,k\in\Z_M$. These are nonzero for the same reason. Its inverse kernel is
+\[
+  g(z):=M^{-2}\sum_{j,k\in\Z_M}\frac{e^{i\pi(jz_1+kz_2)/N}}{\lambda_{jk}},\qquad T_Mg=\delta_0 .
+\]
+Since $c_{-j}=c_j$, the function $g$ is even in each coordinate separately.
+
+\subsection{Exact images}
+
+\begin{lemma}[images]\label{lem:images}
+For $x,y\in\{1,\dots,L\}^2$,
+\[
+  T^{-1}(x,y)=\sum_{\sigma\in\{\pm1\}^2}\sigma_1\sigma_2\,g(x_1-\sigma_1y_1,\ x_2-\sigma_2y_2),
+\]
+with indices taken mod $M$.
+\end{lemma}
+
+\begin{proof}
+Let $u(x)$ be the right-hand side for $x\in\Z_M^2$. By translation invariance, $T_Mu=\sum_\sigma\sigma_1\sigma_2\delta_{(\sigma_1y_1,\sigma_2y_2)}$. Since $g$ is even in its first coordinate, substituting $\sigma_1\to-\sigma_1$ gives $u(-x_1,x_2)=-u(x_1,x_2)$. Hence $u(0,\cdot)=0$, and $u(N,\cdot)=u(-N,\cdot)=-u(N,\cdot)=0$. The same holds in the second coordinate. For $x$ in the box $\{1,\dots,N-1\}^2$, all torus neighbours of $x$ lie in $\{0,\dots,N\}^2$, and $u$ vanishes on the lines with a coordinate equal to $0$ or $N$. So $(T\,u|_{\mathrm{box}})(x)=(T_Mu)(x)$. The three reflected sources have a coordinate in $\{N+1,\dots,2N-1\}$, outside the box, so $(T_Mu)(x)=\delta_y(x)$. Since $T$ is invertible, $u|_{\mathrm{box}}=T^{-1}(\cdot,y)$.
+\end{proof}
+
+\subsection{A one-dimensional resolvent}
+
+\begin{lemma}[1D resolvent]\label{lem:resolvent}
+Let $P_M$ be the adjacency matrix of the cycle $\Z_M$, let $c\in[-1,1]\setminus\{0\}$, $\zeta\in\{2ic,-2ic\}$ and $s:=\asinh\abs c$. Then $P_M-\zeta$ is invertible, and for $x\in\Z_M$ with $d(x)=\delta\in[0,N]$,
+\[
+  \abs{(P_M-\zeta)^{-1}(x,0)}\le\frac{\cosh(s(N-\delta))}{2\cosh(s)\sinh(sN)} .
+\]
+\end{lemma}
+
+\begin{proof}
+Take $\zeta=2ic$; the other case is the same with $\mu$ replaced by $-\mu$. Put $\mu:=i\bigl(c-\sgn(c)\sqrt{1+c^2}\bigr)$. Then $\mu+\mu^{-1}=\zeta$ and $\abs\mu=\sqrt{1+c^2}-\abs c=e^{-s}<1$, since $\sinh s=\abs c$ and $\cosh s=\sqrt{1+c^2}$. On $\Z$, the function $u(x)=\mu^{\abs x+1}/(\mu^2-1)$ satisfies $u(x+1)+u(x-1)-\zeta u(x)=\delta_0(x)$. For $x\ne0$ this is $\mu+\mu^{-1}=\zeta$. At $x=0$ it reads $\frac{\mu}{\mu^2-1}(2\mu-\zeta)=\frac{\mu}{\mu^2-1}(\mu-\mu^{-1})=1$. The periodization $\sum_{\ell\in\Z}u(x+\ell M)$ converges absolutely and solves the equation on the cycle. It is the inverse kernel, because $P_M-\zeta$ has eigenvalues $2\cos(\pi k/N)-\zeta\ne0$ (a real number minus a nonzero imaginary one). Since $\mu^2=-e^{-2s}$, we have $\abs{\mu^2-1}=1+e^{-2s}$ and $\abs{u(x)}=e^{-s\abs x}/(2\cosh s)$. Finally, for a representative $x=\delta\in[0,N]$,
+\[
+  \sum_{\ell\in\Z}e^{-s\abs{\delta+\ell M}}=\frac{e^{-s\delta}+e^{-s(M-\delta)}}{1-e^{-sM}}=\frac{\cosh(s(N-\delta))}{\sinh(sN)} .\qedhere
+\]
+\end{proof}
+
+\subsection{The torus kernel}
+
+\begin{lemma}[torus kernel]\label{lem:torus}
+\begin{enumerate}[label=(\alph*)]
+\item $g(z)=0$ whenever $z_1+z_2$ is even. In particular $g(0)=0$.
+\item $g(\pm e_1)=1/4$ and $g(\pm e_2)=-i/4$.
+\item $\abs{g(z)}\le A_\star/\norm z_T$ for $z\ne0$.
+\end{enumerate}
+Consequently $\abs{g(z)}\le G(\norm z_T)$ for all $z\ne0$.
+\end{lemma}
+
+\begin{proof}
+(a) Since $c_{j+N}=-c_j$, we have $\lambda_{j+N,k+N}=-\lambda_{jk}$, while the phase changes by $e^{i\pi(z_1+z_2)}=1$. The involution $(j,k)\mapsto(j+N,k+N)$ of $\Z_M^2$ has no fixed points, so $g(z)=-g(z)$.
+
+(b) Rename the summation variables in $g(e_2)$ and use $2c_k+2ic_j=i(2c_j+2ic_{k+N})=i\lambda_{j,k+N}$. This gives $g(e_2)=-i\,g(e_1)$. By evenness $g(-e_\iota)=g(e_\iota)$. Then $(T_Mg)(0)=2g(e_1)+2i\,g(e_2)=4g(e_1)=1$.
+
+(c) Write
+\[
+  g(z)=M^{-1}\sum_{j\in\Z_M}e^{i\pi jz_1/N}\Bigl[M^{-1}\sum_{k\in\Z_M}\frac{e^{i\pi kz_2/N}}{2c_j+2ic_k}\Bigr].
+\]
+The bracket is $(2c_j+iP_M)^{-1}(z_2,0)=-i(P_M-2ic_j)^{-1}(z_2,0)$, and $c_j\ne0$ because $N$ is odd. Summing over $j$ first instead gives the same expression with the roles of the coordinates exchanged and $(P_M+2ic_k)^{-1}(z_1,0)$ in the bracket. Apply Lemma~\ref{lem:resolvent} in a coordinate that attains $\delta:=\norm z_T\in[1,N]$. With $s_j:=\asinh\abs{c_j}$,
+\[
+  \abs{g(z)}\le M^{-1}\sum_{j\in\Z_M}\tau(s_j),\qquad \tau(s):=\frac{\cosh(s(N-\delta))}{2\cosh(s)\sinh(sN)} .
+\]
+\emph{$\tau$ is decreasing.} With $a=N-\delta<b=N$, the derivative of $\cosh(as)/\sinh(bs)$ has the sign of $a\sinh(as)\sinh(bs)-b\cosh(as)\cosh(bs)<0$, and $1/\cosh s$ is decreasing.
+
+\emph{Lower bounds on $s_j$.} We have $\abs{c_j}=\sin(\pi\delta_j/N)$, where $\delta_j\in[0,N/2]$ is the distance from $j$ to $N/2+N\Z$. As $N$ is odd, $\delta_j\in\{\frac12,\frac32,\dots\}$. For each $m\ge0$ at most four $j\in\Z_M$ have $\delta_j=m+\frac12$, namely $N/2\pm(m+\frac12)$ and $3N/2\pm(m+\frac12)$. From $\sin x\ge2x/\pi$ on $[0,\pi/2]$ we get $\abs{c_j}\ge(2m+1)/N$. Since $\asinh$ is concave on $[0,\infty)$ with $\asinh0=0$, $\asinh y\ge\kappa y$ on $[0,1]$. Hence $s_j\ge\kappa(2m+1)/N$.
+
+\emph{Each term.} From $\cosh(s(N-\delta))\le e^{s(N-\delta)}$, $\cosh s\ge1$ and $\sinh(sN)=\frac12e^{sN}(1-e^{-2sN})$ we get $\tau(s)\le e^{-s\delta}/(1-e^{-2sN})$. For $s\ge\kappa/N$ the denominator is at least $1-e^{-2\kappa}=1-(\sqrt2-1)^2=2(\sqrt2-1)$.
+
+\emph{Sum.} Putting these together, with $y:=\kappa\delta/N$,
+\[
+  \abs{g(z)}\le\frac1{2N}\cdot4\cdot\frac{\sqrt2+1}{2}\sum_{m\ge0}e^{-(2m+1)y}=\frac{\sqrt2+1}{N}\cdot\frac{1}{2\sinh y}\le\frac{\sqrt2+1}{2\kappa\delta}=\frac{A_\star}{\delta},
+\]
+using $\sinh y\ge y$.
+
+For the last claim: if $\norm z_T=1$ and $z_1+z_2$ is odd, then $z\in\{\pm e_1,\pm e_2\}$ and $\abs{g(z)}=1/4<1/\sqrt2$. If $z_1+z_2$ is even, $g(z)=0$. If $\norm z_T\ge2$ then $A_\star/\norm z_T\le A_\star/2<1/\sqrt2$.
+\end{proof}
+
+\subsection{Consequences for the free square}
+
+\begin{proposition}[kernel bounds]\label{prop:kernel}
+For all white $w$, black $b$ and edges $e$:
+\begin{enumerate}[label=(\alph*)]
+\item $\abs{K^{-1}(w,b)}\le4G(\norm{w-b}_\infty)\le4A_\star/\norm{w-b}_\infty$;
+\item $\abs{K^{-1}(w,b)-g(w-b)}\le3G\bigl(\max(2D(w,b),\norm{w-b}_\infty)\bigr)$;
+\item $\abs{\Pr(e\in M)-\frac14}\le3G(2D(e))\le\dfrac{3A_\star}{2D(e)}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Use Lemma~\ref{lem:images} with $x=w$, $y=b$. The direct term $g(w-b)$ has $\norm{w-b}_T=\norm{w-b}_\infty$, because the coordinates of $w-b$ have absolute value less than $N$. Consider an image term, say with $\sigma_1=-1$. Its first coordinate $x_1+y_1$ has cyclic distance $\min(x_1+y_1,2N-x_1-y_1)$. This is at least $2\min(x_1,y_1,N-x_1,N-y_1)\ge2D(w,b)$. It is also at least $\abs{x_1-y_1}$, because $2N\ge2\max(x_1,y_1)$. The other coordinate is either reflected too, with the same bounds, or equals $x_2-y_2$. So every image term has torus norm at least $\max(2D(w,b),\norm{w-b}_\infty)\ge2$. Lemma~\ref{lem:torus} and the monotonicity of $G$ give (a) and (b). For (c), Lemma~\ref{lem:tilted} with $t=1$ gives $\Pr(e\in M)=K(b,w)K^{-1}(w,b)$. The direct term contributes $1\cdot g(\pm e_1)=1/4$ for a horizontal edge and $i\cdot g(\pm e_2)=1/4$ for a vertical edge, so (b) gives (c).
+\end{proof}
+
+Since $\norm{w-b}_\infty\ge1$, part (a) also gives $\abs{K^{-1}(w,b)}\le8A_\star/(1+\norm{w-b}_\infty)$ for \emph{all} pairs. For an edge at distance at least $\delta L$ from the boundary, $\Pr(e\in M)=\frac14+\theta\,\frac{3A_\star}{2\delta L}$ with $\abs\theta\le1$.
+
+\begin{remark}[relation to the literature]
+Inverse Kasteleyn asymptotics are classical~\cite{Kenyon97,Kenyon00,KenyonLectures}. We did not find a published statement with matching hypotheses that gives, for the ordinary free even square, a bound $C/(1+\norm{w-b})$ uniform up to the boundary together with the rate $\Pr(e\in M)=\frac14+O(1/D(e))$. Kenyon's results concern infinite-volume statistics and Temperleyan approximating domains, and a convergence theorem does not by itself give an $O(1/L)$ rate. So we prove both estimates directly. The method (sine series, odd images, a one-dimensional resolvent) is elementary and specific to the rectangle.
+\end{remark}
+
+\paragraph{Numerical checks.} Appendix~\ref{app:checks} lists them. The image formula agrees with sparse LU solves to within $5.1\cdot10^{-15}$ for $L\in\{8,16,64,128,256,300\}$, with 24 sources each, including the corners. The closed form of Lemma~\ref{lem:resolvent} matches dense inverses to $1.72\cdot10^{-15}$, and the ratio to the bound is at most $0.9988$. On the box, the observed $\sup\norm{w-b}_\infty\abs{K^{-1}(w,b)}$ grows from $1.31$ at $L=8$ to $1.66$ at $L=300$, against the proven $4A_\star=5.478$. The torus constant $A_\star$ is about $3.3$ times larger than the observed $\sup_z\norm z_T\abs{g(z)}$, which is $0.426$ at $L=8$ and $0.417$ at $L=512$. Inside the trimmed square $Q$ of Section~\ref{sec:selection}, the smallest edge marginal is $0.200$, $0.228$ and $0.237$ at $L=64$, $300$ and $512$.

@@ -1,0 +1,35 @@
+[
+ {
+  "L": 2,
+  "nodes": 15,
+  "wires": 14,
+  "total_mass_Z": 2,
+  "pm_value_one_checked": 2
+ },
+ {
+  "L": 4,
+  "nodes": 101,
+  "wires": 290,
+  "total_mass_Z": 36,
+  "pm_value_one_checked": 36
+ },
+ {
+  "L": 6,
+  "nodes": 478,
+  "wires": 3354,
+  "total_mass_Z": 6728,
+  "pm_value_one_checked": 6728
+ },
+ {
+  "L": 8,
+  "nodes": 2546,
+  "wires": 31603,
+  "total_mass_Z": 12988816
+ },
+ {
+  "L": 10,
+  "nodes": 15138,
+  "wires": 266540,
+  "total_mass_Z": 258584046368
+ }
+]

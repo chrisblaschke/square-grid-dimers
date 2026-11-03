@@ -1,0 +1,56 @@
+\section{Signed weights and exact inference}\label{sec:signed}
+
+This section separates what the Kasteleyn determinant gives from what it does not. The lower bounds above use nonnegativity. With signed weights the picture depends on the syntactic class.
+
+\paragraph{A small generating circuit.} By Lemma~\ref{lem:common-phase}, the generating polynomial of $U_L$ is
+\[
+  \sum_xU_L(x)z^x=\frac{\det K'(z)}{\det K'(\one)},
+\]
+the determinant of an $(L^2/2)\times(L^2/2)$ matrix whose entries are $\pm z_e$ or $0$. Division-free determinant algorithms~\cite{Berkowitz84,MahajanVinay99} compute it with $\mathrm{poly}(n)$ gates. So $U_L$ has a polynomial-size PGC in the sense of~\cite{ZhangJubaVdB21}. The common Kasteleyn sign is what makes the coefficients exactly $U_L(x)$ rather than signed counts.
+
+\paragraph{Conversions to signed circuits.} Agarwal and Bl\"aser~\cite[Thm.~8.1]{AgarwalBlaser24} show that PGCs over binary variables can be simulated by nonmonotone PCs with polynomial overhead. Their construction substitutes $z_i\mapsto x_i/\bar x_i$, multiplies by $\prod_i\bar x_i$, and removes divisions by Strassen's method~\cite{Strassen73}. They note that the syntactic property of decomposability ``is replaced by the semantic property of computing a set-multilinear polynomial (but intermediate results might not be set-multilinear)''. Broadrick, Zhang and Van den Broeck~\cite[Thm.~3]{BroadrickZhangVdB24} give a similar transformation of size $O(sn^2)$ that produces a circuit computing the network polynomial, with negative parameters and no decomposability guarantee. Marginals of such circuits can still be computed by one evaluation. But \emph{neither construction yields a syntactically decomposable circuit}. Determinant algorithms multiply polynomials with overlapping scopes and rely on cancellation.
+
+
+\paragraph{Structured signed circuits.} The rank form of the profile bound gives an exact lower bound for signed circuits that respect a vtree.
+
+\begin{proposition}[signed, structured, exact]\label{prop:structured-signed}
+Let $C$ be a structured-decomposable circuit with univariate real leaves and arbitrary real weights such that $f_C=U_L$ on $\{0,1\}^n$. Then $\abs C\ge1/\alpha_L-1\ge e^{c(L)L}-1$.
+\end{proposition}
+
+\begin{proof}
+Let $\cT$ be the vtree. Starting at the root, walk to the child with more variables while the current node has more than $2n/3$ variables. This finds a vtree node $\nu$ whose variable set $X_\nu$ satisfies $n/3<\abs{X_\nu}\le2n/3$. Call a circuit node \emph{straddling} if its scope meets $X_\nu$ but is not contained in it. We show by induction that each straddling node $v$ satisfies
+\begin{equation}\label{eq:straddle}
+  f_v=\sum_{u:\,X_u\subseteq X_\nu}f_u\,\psi_{u,v}+\chi_v ,
+\end{equation}
+where $\psi_{u,v}$ and $\chi_v$ are functions of the variables outside $X_\nu$.
+
+Leaves are univariate, so they do not straddle. Let $v$ be a straddling product node with children $c_1,c_2$ and vtree node $\mu$. The scope of $v$ lies in the variable set of $\mu$, which therefore meets $X_\nu$. Vtree variable sets are nested or disjoint, and $X_v\not\subseteq X_\nu$, so $\mu$ is a strict ancestor of $\nu$. Hence $X_\nu$ lies on one side of $\mu$, say the left. Then $X_{c_2}$ is disjoint from $X_\nu$. The child $c_1$ cannot be disjoint from $X_\nu$, or $v$ would not straddle. If $X_{c_1}\subseteq X_\nu$, then $f_v=f_{c_1}f_{c_2}$ has the form~\eqref{eq:straddle}. If $c_1$ straddles, multiply its expression by $f_{c_2}$. Now let $v$ be a straddling sum node. Each child is straddling, contained in $X_\nu$ (a term with constant $\psi$), or disjoint from $X_\nu$ (absorbed into $\chi_v$). Summing gives~\eqref{eq:straddle}.
+
+The function $U_L$ depends on every edge variable, because every edge lies in some perfect matching. So the root scope is all of $E$, and the root straddles. Consider the matrix $\mathbf M[\alpha,\beta]=U_L(\alpha\cup\beta)$ with rows indexed by $\alpha\subseteq X_\nu$ and columns by $\beta\subseteq E\setminus X_\nu$. By~\eqref{eq:straddle} at the root, $\rank\mathbf M\le\abs C+1$. On the other hand, by~\eqref{eq:rectangle} with $A=X_\nu$, $\mathbf M$ is block diagonal with constant nonzero blocks on $\cA_S\times\cB_S$, one for each realized profile $S$. So its rank is the number of realized profiles. Profile masses sum to one and are each at most $\alpha_L$, since $X_\nu\sqcup(E\setminus X_\nu)$ is a balanced edge cut. So there are at least $1/\alpha_L$ realized profiles.
+\end{proof}
+
+The proposition covers exact representation. For the unnormalized support indicator $Z_LU_L$, the rank argument works over any field. For the normalized function $U_L$, it requires $Z_L$ to be invertible in the field. It does not cover signed approximation, or signed decomposable circuits without a common vtree.
+
+\paragraph{Summary by circuit class.} Table~\ref{tab:signed} collects what is known for $U_L$.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}p{7.6cm}p{2.9cm}p{3.1cm}@{}}
+\toprule
+Circuit class & size for $U_L$ & source\\
+\midrule
+nonnegative, smooth, decomposable, leaf arity $\le2n/3$, TV $\le\eps<1$, determinism not required & $\exp(\Theta(L))$ & Thms B, C\\
+signed, structured-decomposable, univariate leaves, exact & $\exp(\Theta(L))$ & Prop.~\ref{prop:structured-signed}, Thm C\\
+signed, decomposable (unstructured), univariate leaves, exact or approximate & upper $\exp(O(L))$; lower \textbf{open} & Thm C\\
+signed, non-decomposable circuit for the network polynomial (tractable marginals) & $\mathrm{poly}(n)$ & Lemma~\ref{lem:common-phase} with \cite[Thm.~8.1]{AgarwalBlaser24} or \cite[Thm.~3]{BroadrickZhangVdB24}\\
+nonnegative, non-decomposable, univariate leaves & $O(n)$ & Sec.~\ref{sec:scope}\\
+unrestricted leaves & $1$ & ---\\
+\bottomrule
+\end{tabular}
+\caption{Representation size of $U_L$ by circuit class. The TV row holds for every fixed error below one.}
+\label{tab:signed}
+\end{table}
+
+So within syntactically decomposable circuits with univariate leaves, we do not know whether negative weights help for $U_L$, except in the structured exact case. Broadrick, Zhang and Van den Broeck~\cite[Lemma~3]{BroadrickZhangVdB24} note that a \emph{decomposable} circuit for the generating polynomial converts to a decomposable circuit for the network polynomial. So a small signed decomposable circuit for $U_L$ would follow from a small decomposable signed circuit for the Kasteleyn determinant. Whether one exists is an instance of the set-multilinear determinant question that Agarwal and Bl\"aser raise when they say it is not clear whether decomposable and smooth PCs can represent DPPs~\cite[Sec.~4]{AgarwalBlaser24}. The lower bound of Theorem~B does not settle it, and we do not claim that the determinant is a polynomial-size decomposable signed PC.
+
+\paragraph{Exact inference is easy.} Theorem~B is a statement about representation size, not about inference. An evidence pattern fixes some edges as present and some as absent. Conflicting present edges give probability zero. Otherwise, delete the endpoints of the present edges and the absent edges, and count the perfect matchings of the remaining planar graph. One can recompute a Kasteleyn orientation for it. Alternatively, keep the inherited minor of $K'$: every residual matching extends, by the fixed edges, to a full matching, so the minor has no cancellation. The evidence probability is this count divided by $Z_L$. Both numbers have polynomial bit length. So evidence probabilities, single marginals and conditionals given positive-probability evidence are exactly computable in polynomial time, and exact sampling follows by sequential conditioning. This means computing any specified marginal, not printing an exponentially large table. Conditioning on a zero-probability event is undefined.

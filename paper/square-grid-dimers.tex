@@ -1,0 +1,91 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1.05in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+
+\setlist{itemsep=2pt,topsep=4pt}
+
+
+% ---------- theorem environments ----------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\theoremstyle{plain}
+\newcommand{\namedthmname}{}
+\newtheorem*{namedthminner}{\namedthmname}
+\newenvironment{named}[1]{\renewcommand{\namedthmname}{#1}\begin{namedthminner}}{\end{namedthminner}}
+
+% ---------- notation ----------
+\newcommand{\PM}{\mathrm{PM}}
+\newcommand{\TV}{\mathrm{TV}}
+\newcommand{\BC}{\mathrm{BC}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\prof}{\operatorname{prof}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\asinh}{\operatorname{asinh}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\vars}{\operatorname{vars}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\OPT}{\mathrm{OPT}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cT}{\mathcal{T}}
+\newcommand{\one}{\mathbf{1}}
+\emergencystretch=3em
+\newcommand{\ket}[1]{\lvert #1\rangle}
+\newcommand{\bra}[1]{\langle #1\rvert}
+
+\title{Uniform square-grid dimers versus monotone and nonnegative circuits}
+\author{Chris Blaschke\\Ax0s}
+\date{November 3, 2026. Preprint, not peer reviewed.\\ \small Source, numerical checks and release history: \url{https://github.com/chrisb4096-alt/square-grid-dimers}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Valiant (1980) proved that monotone arithmetic circuits for the perfect-matching polynomial of a triangular grid need exponential size. He noted that one step of his argument fails for rectangular grids, so their monotone complexity was left open. We settle the square case. Let $U_L$ be the uniform distribution on the domino tilings of the free $L\times L$ square ($L$ even), viewed as a distribution on the $n=2L(L-1)$ edge indicators. For every split of the edges into two parts of size at least $n/3$, and every vertex set $S$, the probability that the matching edges in the first part cover exactly $S$ is at most $\exp(-L/1129)$ once $L\ge 1000$. The same bound holds for the probability that no matching edge leaves a vertex set of size between $L^2/3$ and $2L^2/3$. The proof uses a tilted Kasteleyn determinant, Carleman's determinant inequality, and an elementary bound $\abs{K^{-1}(w,b)}\le 4A/\norm{w-b}_\infty$ for the free square with an explicit constant $A\approx1.37$.
+
+Three consequences follow. (i) Monotone arithmetic circuits and $(\min,+)$ circuits for the square-grid matching polynomial need size $\exp(\Omega(L))$, which matches an $\exp(O(L))$ upper bound. (ii) Every nonnegative, smooth, decomposable probabilistic circuit with leaves of arity at most $2n/3$ and within total variation $\eps<1$ of $U_L$ has size at least $(1-\eps)^2e^{cL}$. A column-transfer circuit of size $O(L^2(1+\sqrt2)^L)$ is exact, so the optimal size in this class is $\exp(\Theta(\sqrt n))$ for every fixed error below one. (iii) The Rokhsar--Kivelson dimer state on the square has R\'enyi-$\infty$ entropy at least $cL$ across every balanced link bipartition. $U_L$ also has polynomial-size determinant-based generating circuits, and exact inference for it is easy. We specify which signed circuit classes this does and does not cover. A triangular-grid analogue of (ii) already follows from Valiant's argument, and we state it first. What is new here is the square-grid package.
+\end{abstract}
+
+\tableofcontents
+
+\input{sec-intro}
+\input{sec-prelim}
+\input{sec-results}
+\input{sec-kasteleyn}
+\input{sec-kernel}
+\input{sec-selection}
+\input{sec-circuits}
+\input{sec-upper}
+\input{sec-signed}
+\input{sec-related}
+\input{sec-open}
+
+\appendix
+\input{app-checks}
+
+\bibliographystyle{alphaurl}
+\bibliography{refs}
+
+\end{document}

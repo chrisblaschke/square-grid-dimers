@@ -1,0 +1,114 @@
+\section{Kasteleyn algebra and Carleman's inequality}\label{sec:kasteleyn}
+
+\subsection{Kasteleyn matrices and the common phase}
+
+Let $\mathsf B$ and $\mathsf W$ be the sets of black and white vertices. The \emph{complex Kasteleyn matrix} $K$ is the $\mathsf B\times\mathsf W$ matrix with
+\[
+  K(b,w)=\begin{cases}1 & \text{if $\{b,w\}$ is a horizontal edge,}\\ i & \text{if $\{b,w\}$ is a vertical edge,}\\ 0&\text{otherwise.}\end{cases}
+\]
+For edge weights $z\in\C^E$, let $K(z)$ have entries $K(b,w)z_{bw}$. Let $T$ be the symmetric $V\times V$ matrix with $T(b,w)=T(w,b)=K(b,w)$ and zero entries between vertices of the same colour. Writing $P_L$ for the adjacency matrix of the path $1-2-\dots-L$ (no confusion with the polynomial $P_L$ will arise), we have
+\begin{equation}\label{eq:T-tensor}
+  T=P_L\otimes I+i\,I\otimes P_L ,
+\end{equation}
+where the first factor acts on columns and the second on rows. In block form $T=\begin{psmallmatrix}0&K\\K^{\top}&0\end{psmallmatrix}$, so $T^{-1}(w,b)=K^{-1}(w,b)$ for $w\in\mathsf W$, $b\in\mathsf B$. We show in Section~\ref{sec:kernel-diag} that $T$, and hence $K$, is invertible.
+
+The \emph{real gauge} is $K':=D_{\mathsf B}KD_{\mathsf W}$ with diagonal matrices $D_{\mathsf B}(b)=(-i)^{b_2}$ and $D_{\mathsf W}(w)=i^{w_2}$.
+
+\begin{lemma}[face signs]\label{lem:faces}
+$K'$ has entries in $\{0,\pm1\}$. A horizontal edge has $K'(b,w)=+1$. A vertical edge has $K'(b,w)=-1$ if the white endpoint lies above the black one, and $+1$ if it lies below. For every unit square of the grid, the product of the four entries of $K'$ on its sides is $-1$.
+\end{lemma}
+
+\begin{proof}
+For a horizontal edge $b_2=w_2$, so $K'(b,w)=(-i)^{b_2}\cdot1\cdot i^{b_2}=1$. For a vertical edge with $w_2=b_2+1$ we get $(-i)^{b_2}\cdot i\cdot i^{b_2+1}=i^2=-1$. With $w_2=b_2-1$ we get $(-i)^{b_2}\cdot i\cdot i^{b_2-1}=1$. Take a unit square with lower-left corner $(x_1,x_2)$. Both horizontal sides give $+1$. If $(x_1,x_2)$ is black, the left side has white above black ($-1$) and the right side has white below black ($+1$). If $(x_1,x_2)$ is white, the two signs swap. Either way the product is $-1$.
+\end{proof}
+
+The next lemma is Kasteleyn's theorem~\cite{Kasteleyn61} for the square grid. We include the standard proof because the tilted identity below depends on it.
+
+\begin{lemma}[common phase]\label{lem:common-phase}
+All perfect matchings contribute the same sign to $\det K'$. Hence there are $\epsilon_L\in\{\pm1\}$ and a constant $\omega_L\in\C$ with $\abs{\omega_L}=1$ such that, as polynomials in $z$,
+\begin{equation}\label{eq:kasteleyn}
+  \det K'(z)=\epsilon_L\,P_L(z),\qquad \det K(z)=\omega_L\,P_L(z).
+\end{equation}
+In particular $\abs{\det K}=Z_L$.
+\end{lemma}
+
+\begin{proof}
+Fix orderings of $\mathsf B$ and $\mathsf W$. A nonzero term of the Leibniz expansion of $\det K'(z)$ is $\sgn(\sigma)\prod_bK'(b,\sigma(b))z_{b\sigma(b)}$ for a bijection $\sigma:\mathsf B\to\mathsf W$ whose pairs $\{b,\sigma(b)\}$ form a perfect matching $M_\sigma$. Distinct matchings give distinct monomials. So it suffices to show that the sign $\tau(M):=\sgn(\sigma_M)\prod_{e\in M}K'(e)$ is the same for all $M$.
+
+Let $M,M'$ be perfect matchings. The symmetric difference $M\triangle M'$ is a disjoint union of simple cycles $C_1,\dots,C_q$ that alternate between $M$ and $M'$. If $C_j$ has length $2\ell_j$, then $\sigma_{M'}\sigma_M^{-1}$ restricted to the white vertices of $C_j$ is an $\ell_j$-cycle, with sign $(-1)^{\ell_j-1}$. Edges of $M\cap M'$ cancel in the ratio. Since entries are $\pm1$,
+\[
+  \tau(M)\tau(M')=\prod_{j=1}^q(-1)^{\ell_j-1}\prod_{e\in C_j}K'(e).
+\]
+We claim that $\prod_{e\in C}K'(e)=(-1)^{\ell+1}$ for each such cycle $C$ of length $2\ell$, which makes every factor equal to $+1$.
+
+The cycle $C$ is a simple closed lattice curve. The grid vertices, edges and unit squares inside it form a connected plane graph whose outer boundary is $C$. Let $p$ be the number of vertices strictly inside $C$, $E_{\mathrm{in}}$ the number of edges strictly inside, and $f$ the number of unit squares inside. Each unit square has sign product $-1=(-1)^{2+1}$ by Lemma~\ref{lem:faces}. Multiplying over the $f$ squares inside, each interior edge appears twice and each edge of $C$ once, so
+\[
+  \prod_{e\in C}K'(e)=(-1)^f .
+\]
+Euler's formula for the plane graph inside $C$ (with $f$ bounded faces) gives $(2\ell+p)-(2\ell+E_{\mathrm{in}})+f=1$, so $f=1+E_{\mathrm{in}}-p$. Counting edge--face incidences gives $4f=2\ell+2E_{\mathrm{in}}$, so $E_{\mathrm{in}}=2f-\ell$. Substituting, $f=1+2f-\ell-p$, hence $f=\ell+p-1$ and
+\[
+  \prod_{e\in C}K'(e)=(-1)^{\ell+p+1}.
+\]
+Finally $p$ is even. A vertex strictly inside $C$ is matched by $M$ to a neighbour that is inside $C$ or on $C$. Every vertex of $C$ is matched by $M$ along $C$, because $C$ alternates between $M$ and $M'$. So $M$ matches the interior vertices among themselves. This proves the claim and the first identity in~\eqref{eq:kasteleyn}. The second follows from $K(z)=D_{\mathsf B}^{-1}K'(z)D_{\mathsf W}^{-1}$, with $\omega_L=\epsilon_L/(\det D_{\mathsf B}\det D_{\mathsf W})$.
+\end{proof}
+
+The identity~\eqref{eq:kasteleyn} was also checked exactly for $L=2,4,6$ (Appendix~\ref{app:checks}). All $1$, $9$ and $25$ unit squares have sign product $-1$. The common real sign over all $2$, $36$ and $6728$ matchings is $+1$ in the script's orderings. The polynomial identity holds in integer arithmetic at six random integer points per $L$, half of which have negative entries.
+
+\subsection{The tilted identity}
+
+\begin{lemma}[tilted identity]\label{lem:tilted}
+Let $F=\{e_1,\dots,e_t\}$ be distinct edges with $e_j=\{b_j,w_j\}$, $b_j$ black, and put $\kappa_j:=K(b_j,w_j)$. Define the $t\times t$ matrix
+\[
+  H_{ij}:=K^{-1}(w_i,b_j)\,\kappa_j .
+\]
+Then for every $\eta\in[0,1]$,
+\[
+  \det(I-\eta H)=\E_{U_L}\bigl[(1-\eta)^{\abs{M\cap F}}\bigr]\in[0,1].
+\]
+In particular $\det(I-\eta H)$ is real, $\det(I-\eta H)\ge U_L(M\cap F=\emptyset)$, and $H_{jj}=U_L(e_j\in M)$.
+\end{lemma}
+
+\begin{proof}
+Let $K_\eta$ be $K$ with the entries on $F$ multiplied by $1-\eta$. With $U$ the $\mathsf B\times t$ matrix whose $j$-th column is $\kappa_j\one_{b_j}$, and $V$ the $\mathsf W\times t$ matrix whose $j$-th column is $\one_{w_j}$, we have $K_\eta=K-\eta UV^{\top}$, because the edges are distinct. By~\eqref{eq:kasteleyn}, evaluated at $z_e=1-\eta$ on $F$ and $z_e=1$ elsewhere,
+\[
+  \frac{\det K_\eta}{\det K}=\frac{\omega_L\sum_M(1-\eta)^{\abs{M\cap F}}}{\omega_LZ_L}=\E\bigl[(1-\eta)^{\abs{M\cap F}}\bigr].
+\]
+By the matrix determinant lemma, $\det(K-\eta UV^{\top})=\det K\cdot\det(I_t-\eta V^{\top}K^{-1}U)$, and $(V^{\top}K^{-1}U)_{ij}=K^{-1}(w_i,b_j)\kappa_j=H_{ij}$. The case $t=1$ gives $1-\eta H_{11}=1-\eta\Pr(e_1\in M)$. Finally $(1-\eta)^{\abs{M\cap F}}\ge\one[M\cap F=\emptyset]$.
+\end{proof}
+
+Changing to the real gauge conjugates $H$ by a diagonal unitary matrix. This changes neither the determinant nor the moduli of the entries. Lemma~\ref{lem:tilted} was checked in exact rational arithmetic against enumeration for $25$ random sets $F$ with $\abs F\le8$ at each $L\in\{2,4,6\}$, with $\eta=2/5$ (Appendix~\ref{app:checks}).
+
+\subsection{Carleman's inequality and avoidance}
+
+\begin{lemma}[Carleman-type determinant bound]\label{lem:carleman}
+For every complex $t\times t$ matrix $X$,
+\[
+  \abs{\det(I-X)}\le\exp\Bigl(-\mathrm{Re}\tr X+\tfrac12\norm X_F^2\Bigr),
+\]
+where $\norm X_F$ is the Frobenius (Hilbert--Schmidt) norm.
+\end{lemma}
+
+\begin{proof}
+If $I-X$ is singular there is nothing to prove. Otherwise let $\sigma_1,\dots,\sigma_t>0$ be its singular values. Using $\ln u\le u-1$ with $u=\sigma_k^2$,
+\[
+  2\ln\abs{\det(I-X)}=\sum_k\ln\sigma_k^2\le\sum_k(\sigma_k^2-1)=\tr\bigl((I-X)^*(I-X)\bigr)-t=-2\,\mathrm{Re}\tr X+\norm X_F^2. \qedhere
+\]
+\end{proof}
+
+This is the finite-dimensional case of Carleman's inequality $\abs{\det_2(I+Y)}\le\exp(\frac12\norm Y_F^2)$ for the regularized determinant $\det_2(I+Y)=\det(I+Y)e^{-\tr Y}$, with $Y=-X$. Inequalities of this type go back to Carleman~\cite{Carleman21}; Simon~\cite[Ch.~9]{Simon05} treats regularized determinants. We use only the statement proved above.
+
+\begin{proposition}[avoidance]\label{prop:avoid}
+Let $F$ and $H$ be as in Lemma~\ref{lem:tilted}. Suppose $\tr H\ge pt$ and $\norm H_F^2\le Rt$ with $0<p\le R$. Then
+\[
+  U_L(M\cap F=\emptyset)\le\exp\Bigl(-\frac{tp^2}{2R}\Bigr).
+\]
+\end{proposition}
+
+\begin{proof}
+Take $\eta=p/R\in(0,1]$. The trace $\tr H=\sum_j\Pr(e_j\in M)$ is real. By Lemmas~\ref{lem:tilted} and~\ref{lem:carleman},
+\[
+  U_L(M\cap F=\emptyset)\le\det(I-\eta H)\le\exp\bigl(-\eta tp+\tfrac12\eta^2tR\bigr)=\exp\Bigl(-\frac{tp^2}{2R}\Bigr).\qedhere
+\]
+\end{proof}
+
+No Hermitian structure, operator-norm bound or negative dependence is used. The matrix $H$ is not Hermitian in general.

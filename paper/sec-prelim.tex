@@ -1,0 +1,46 @@
+\section{Preliminaries}\label{sec:prelim}
+
+\paragraph{The grid.} Fix an even integer $L$ and put $N:=L+1$, which is odd. The grid $G_L$ has vertex set $V=\{1,\dots,L\}^2$. We call $x_1$ the column and $x_2$ the row of $x=(x_1,x_2)$. Edges join vertices at Euclidean distance one. There are $n:=2L(L-1)$ edges. A vertex is \emph{black} if $x_1+x_2$ is even and \emph{white} otherwise, so each colour class has $L^2/2$ vertices and every edge joins a black vertex to a white one. We write $\PM_L$ for the set of perfect matchings (domino tilings), $Z_L:=\abs{\PM_L}$, and identify $M\in\PM_L$ with its indicator vector in $\{0,1\}^E$. $U_L$ is the uniform distribution on $\PM_L$, viewed as a distribution on $\{0,1\}^n$. For odd $L$ there are no perfect matchings, so evenness is part of the definition of $U_L$, not a proof convenience.
+
+The \emph{boundary distance} of $x\in V$ is $\min(x_1,N-x_1,x_2,N-x_2)$. For $x,y\in V$ we set $D(x,y)$ to be the smaller boundary distance of $x$ and $y$, and for an edge $e=\{x,y\}$ we set $D(e):=D(x,y)$.
+
+\paragraph{Cuts and profiles.} A \emph{balanced edge cut} is a partition $E=A\sqcup B$ with $\abs A,\abs B\ge n/3$. For a matching $M$ and $A\subseteq E$, the \emph{$A$-profile} is
+\[
+  \prof_A(M):=\{v\in V:\ \text{the edge of $M$ at $v$ lies in $A$}\}.
+\]
+Let $R_{A,S}:=\{M\in\PM_L:\prof_A(M)=S\}$ and
+\[
+  \alpha_L:=\max\bigl\{U_L(R_{A,S}) : A\sqcup B \text{ a balanced edge cut},\ S\subseteq V\bigr\}.
+\]
+For $S\subseteq V$, let $\cA_S$ be the set of subsets of $A$ that perfectly match $S$, and $\cB_S$ the set of subsets of $B$ that perfectly match $V\setminus S$. Then
+\begin{equation}\label{eq:rectangle}
+  R_{A,S}=\{\alpha\cup\beta:\ \alpha\in\cA_S,\ \beta\in\cB_S\},
+\end{equation}
+and the map $(\alpha,\beta)\mapsto\alpha\cup\beta$ is a bijection from $\cA_S\times\cB_S$ onto $R_{A,S}$. Indeed, every such union is a perfect matching with profile $S$, and every perfect matching with profile $S$ splits this way. The sets $\cA_S$ are pairwise disjoint for distinct $S$, since an edge set determines the vertices it covers. The same holds for the $\cB_S$.
+
+A \emph{balanced vertex set} is an $S\subseteq V$ with $L^2/3\le\abs S\le 2L^2/3$. Write
+\[
+  \mathrm{Cut}(S):=\{M\in\PM_L:\ \text{no edge of $M$ joins $S$ to $V\setminus S$}\},\qquad
+  \beta_L:=\max_{S\ \text{balanced}} U_L(\mathrm{Cut}(S)).
+\]
+If $A\sqcup B$ is any edge partition, then $R_{A,S}\subseteq\mathrm{Cut}(S)$, but $S$ need not be balanced. So neither $\alpha_L$ nor $\beta_L$ controls the other directly.
+
+\paragraph{Distances between distributions.} For distributions $P,Q$ on a finite set, $\TV(P,Q)=\frac12\sum_x\abs{P(x)-Q(x)}$, so $1-\TV(P,Q)=\sum_x\min(P(x),Q(x))$. The Bhattacharyya coefficient is $\BC(P,Q)=\sum_x\sqrt{P(x)Q(x)}$. The same formulas define $\BC(P,Q)$ when $Q$ is a nonnegative function of total mass at most one.
+
+\subsection{Circuit models}\label{sec:models}
+
+\paragraph{Probabilistic circuits.} A \emph{probabilistic circuit} (PC) over $x\in\{0,1\}^n$ is a directed acyclic graph with one root and three kinds of node.
+\begin{itemize}
+\item \emph{Leaves} are nonnegative functions of at most $r$ of the variables. The \emph{arity} is $r$; \emph{univariate} means $r=1$. Indicator leaves $[x_e=0]$ and $[x_e=1]$ are the usual choice.
+\item \emph{Sum nodes} take a weighted sum of their children. Here the weights are nonnegative.
+\item \emph{Product nodes} multiply their children.
+\end{itemize}
+The \emph{scope} $X_v$ of a node $v$ is the set of variables appearing in leaves below $v$. Node $v$ computes a function $f_v$ of $x_{X_v}$. The circuit computes $f_C:=f_{\mathrm{root}}\ge0$ and represents the distribution $Q_C:=f_C/\sum_xf_C(x)$. The circuit is \emph{decomposable} if the children of each product node have pairwise disjoint scopes. It is \emph{smooth} if the children of each sum node have equal scopes. It is \emph{deterministic} if, for each sum node, the children's supports are pairwise disjoint. It is \emph{structured-decomposable} (with respect to a vtree, a rooted binary tree whose leaves are the variables) if every product node is binary and has a vtree node whose left and right variable sets contain the scopes of its two children. The size $\abs C$ is the number of nodes plus the number of wires. Unless stated otherwise, we assume neither determinism nor structure.
+
+A \emph{signed} circuit has the same syntax but allows arbitrary real sum weights and real-valued leaves.
+
+\paragraph{Arithmetic and tropical circuits.} A \emph{monotone arithmetic circuit} has binary $+$ and $\times$ gates, inputs $z_e$ ($e\in E$) and nonnegative real constants. It computes a formal polynomial; we do not identify $z_e^2$ with $z_e$. Its size is the number of nodes (gates, inputs and constants). For unbounded fan-in, count wires instead; this changes sizes by at most a factor of two. A $(\min,+)$ circuit has binary $\min$ and $+$ gates, inputs $w_e$, and constants in $\R\cup\{+\infty\}$. We write
+\[
+  P_L(z):=\sum_{M\in\PM_L}\prod_{e\in M}z_e,\qquad \OPT_L(w):=\min_{M\in\PM_L}\sum_{e\in M}w_e .
+\]
+\paragraph{Generating circuits.} The \emph{generating polynomial} of a distribution $Q$ on $\{0,1\}^n$ is $\sum_xQ(x)\prod_{e:x_e=1}z_e$. A \emph{probabilistic generating circuit} (PGC)~\cite{ZhangJubaVdB21} is an arithmetic circuit, with subtraction allowed, that computes it.
