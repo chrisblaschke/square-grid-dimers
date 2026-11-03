@@ -1,5 +1,7 @@
 # Uniform square-grid dimers versus monotone and nonnegative circuits
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23933226.svg)](https://doi.org/10.5281/zenodo.23933226)
+
 Chris Blaschke (Ax0s), November 3, 2026. Preprint, not peer reviewed. [Read the paper (PDF).](paper/square-grid-dimers.pdf)
 
 In 1980 Valiant proved that monotone arithmetic circuits for the perfect-matching polynomial of a triangular grid need exponential size. At the end of that paper he noted that one of his lemmas fails for rectangular grids, so their monotone complexity was left unresolved. This paper settles the square grid, both exactly and at constant total-variation error.
