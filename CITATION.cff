@@ -5,8 +5,8 @@ authors:
   - family-names: Blaschke
     given-names: Chris
     affiliation: Ax0s
-date-released: 2026-11-03
-version: "1.0.1"
+date-released: 2026-11-17
+version: "1.0.2"
 license: CC-BY-4.0
 doi: 10.5281/zenodo.23933226
 repository-code: "https://github.com/chrisblaschke/square-grid-dimers"
